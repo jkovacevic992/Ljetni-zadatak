@@ -5,6 +5,14 @@
  */
 package kovacevic.ljetnizadatak;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Josip
@@ -28,6 +36,7 @@ public class Izbornik extends javax.swing.JFrame {
     private void initComponents() {
 
         btnEra = new javax.swing.JButton();
+        btnGit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,6 +47,13 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
+        btnGit.setText("GitHub");
+        btnGit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -45,13 +61,17 @@ public class Izbornik extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnEra)
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnGit)
+                .addContainerGap(210, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(btnEra)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEra)
+                    .addComponent(btnGit))
                 .addContainerGap(246, Short.MAX_VALUE))
         );
 
@@ -64,6 +84,17 @@ public class Izbornik extends javax.swing.JFrame {
         slika.setVisible(true);
     }//GEN-LAST:event_btnEraActionPerformed
 
+    private void btnGitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGitActionPerformed
+        
+        try {
+            Desktop.getDesktop().browse(new URL("https://github.com/jkovacevic992/Ljetni-zadatak/tree/master/LjetniZadatak/src/kovacevic/ljetnizadatak").toURI());
+        } catch (URISyntaxException | IOException ex) {
+            ex.printStackTrace();
+        }
+    
+    
+    }//GEN-LAST:event_btnGitActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -71,5 +102,6 @@ public class Izbornik extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEra;
+    private javax.swing.JButton btnGit;
     // End of variables declaration//GEN-END:variables
 }
