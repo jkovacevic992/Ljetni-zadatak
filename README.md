@@ -17,11 +17,13 @@ Obavezni dio (OBAVLJENO):
 
 -U izborniku postaviti link koji otvara github kod
 
-TO DO:
-
 -Aplikacija mora imati izbornik na kojem se nalaze gumbi/slike/linkovi za otvaranje drugih prozora
 
 -Imati onoliko prozora koliko imate tablica u bazi koje u sebi nemaju vanjske ključeve
+
+TO DO:
+
+
 
 -Svaki prozor mora omogućiti CRUD - unos, čitanje, promjenu i brisanje svih podataka koji nisu vezani u nekim drugim tablicama vanjskim ključem.
 
