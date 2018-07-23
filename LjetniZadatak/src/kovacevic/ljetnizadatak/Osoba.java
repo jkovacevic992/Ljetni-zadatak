@@ -9,12 +9,12 @@ package kovacevic.ljetnizadatak;
  *
  * @author Josip
  */
-public class Slika extends javax.swing.JFrame {
+public class Osoba extends javax.swing.JFrame {
 
     /**
-     * Creates new form Slika
+     * Creates new form Osoba
      */
-    public Slika() {
+    public Osoba() {
         initComponents();
     }
 
@@ -27,13 +27,18 @@ public class Slika extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblSlika = new javax.swing.JLabel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.FlowLayout());
 
-        lblSlika.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kovacevic/ljetnizadatak/penjalista.png"))); // NOI18N
-        getContentPane().add(lblSlika);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         pack();
         setLocationRelativeTo(null);
@@ -42,9 +47,8 @@ public class Slika extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblSlika;
     // End of variables declaration//GEN-END:variables
 }

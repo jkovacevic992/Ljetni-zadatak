@@ -37,6 +37,10 @@ public class Izbornik extends javax.swing.JFrame {
 
         btnEra = new javax.swing.JButton();
         btnGit = new javax.swing.JButton();
+        btnPenjaliste = new javax.swing.JButton();
+        btnPenjac = new javax.swing.JButton();
+        btnAutor = new javax.swing.JButton();
+        btnZatvori = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,25 +58,68 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
+        btnPenjaliste.setText("Penjaliste");
+        btnPenjaliste.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPenjalisteActionPerformed(evt);
+            }
+        });
+
+        btnPenjac.setText("Osoba");
+        btnPenjac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPenjacActionPerformed(evt);
+            }
+        });
+
+        btnAutor.setText("Autor smjera");
+        btnAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAutorActionPerformed(evt);
+            }
+        });
+
+        btnZatvori.setText("Zatvori");
+        btnZatvori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZatvoriActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnEra)
-                .addGap(18, 18, 18)
-                .addComponent(btnGit)
-                .addContainerGap(210, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPenjaliste)
+                    .addComponent(btnGit)
+                    .addComponent(btnEra)
+                    .addComponent(btnAutor)
+                    .addComponent(btnPenjac))
+                .addContainerGap(293, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnZatvori)
+                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEra)
-                    .addComponent(btnGit))
-                .addContainerGap(246, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(btnPenjaliste)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAutor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnPenjac)
+                .addGap(11, 11, 11)
+                .addComponent(btnGit)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEra)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addComponent(btnZatvori)
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -95,13 +142,36 @@ public class Izbornik extends javax.swing.JFrame {
     
     }//GEN-LAST:event_btnGitActionPerformed
 
+    private void btnPenjalisteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPenjalisteActionPerformed
+        Penjaliste penjaliste = new Penjaliste();
+        penjaliste.setVisible(true);
+    }//GEN-LAST:event_btnPenjalisteActionPerformed
+
+    private void btnPenjacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPenjacActionPerformed
+        Osoba osoba = new Osoba();
+        osoba.setVisible(true);
+    }//GEN-LAST:event_btnPenjacActionPerformed
+
+    private void btnAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutorActionPerformed
+        Autor autor = new Autor();
+        autor.setVisible(true);
+    }//GEN-LAST:event_btnAutorActionPerformed
+
+    private void btnZatvoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZatvoriActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnZatvoriActionPerformed
+
     /**
      * @param args the command line arguments
      */
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAutor;
     private javax.swing.JButton btnEra;
     private javax.swing.JButton btnGit;
+    private javax.swing.JButton btnPenjac;
+    private javax.swing.JButton btnPenjaliste;
+    private javax.swing.JButton btnZatvori;
     // End of variables declaration//GEN-END:variables
 }
