@@ -3,24 +3,26 @@ Edunova ljetni zadatak
 
 Obavezni dio (OBAVLJENO):
 
-Za razvoj aplikacije koristiti NetBeans
+-Za razvoj aplikacije koristiti NetBeans
 
-U izborniku postaviti link koji otvara novi prozor s slikom ERA dijagrama
+-U izborniku postaviti link koji otvara novi prozor s slikom ERA dijagrama
 
-Postaviti na kod na GitHub
+-Postaviti na kod na GitHub
 
-U readme.md napisati koje su točke realizirane
+-U readme.md napisati koje su točke realizirane
 
-Sav kod kucati iz 0, ne raditi copy/paste
+-Sav kod kucati iz 0, ne raditi copy/paste
 
-Imenovati pakete prezime.ljetnizadatak
+-Imenovati pakete prezime.ljetnizadatak
+
+-U izborniku postaviti link koji otvara github kod
 
 TO DO:
 
-Aplikacija mora imati izbornik na kojem se nalaze gumbi/slike/linkovi za otvaranje drugih prozora
+-Aplikacija mora imati izbornik na kojem se nalaze gumbi/slike/linkovi za otvaranje drugih prozora
 
-Imati onoliko prozora koliko imate tablica u bazi koje u sebi nemaju vanjske ključeve
+-Imati onoliko prozora koliko imate tablica u bazi koje u sebi nemaju vanjske ključeve
 
-Svaki prozor mora omogućiti CRUD - unos, čitanje, promjenu i brisanje svih podataka koji nisu vezani u nekim drugim tablicama vanjskim ključem.
+-Svaki prozor mora omogućiti CRUD - unos, čitanje, promjenu i brisanje svih podataka koji nisu vezani u nekim drugim tablicama vanjskim ključem.
 
-U izborniku postaviti link koji otvara github kod
+
