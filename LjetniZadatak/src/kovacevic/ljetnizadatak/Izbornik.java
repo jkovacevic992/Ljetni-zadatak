@@ -66,7 +66,7 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
-        btnPenjac.setText("Osobe");
+        btnPenjac.setText("Penjači");
         btnPenjac.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPenjacActionPerformed(evt);
