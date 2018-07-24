@@ -150,14 +150,14 @@ public class Izbornik extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEraActionPerformed
 
     private void btnGitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGitActionPerformed
-        
+
         try {
             Desktop.getDesktop().browse(new URL("https://github.com/jkovacevic992/Ljetni-zadatak/tree/master/LjetniZadatak/src/kovacevic/ljetnizadatak").toURI());
         } catch (URISyntaxException | IOException ex) {
             ex.printStackTrace();
         }
-    
-    
+
+
     }//GEN-LAST:event_btnGitActionPerformed
 
     private void btnPenjalisteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPenjalisteActionPerformed
@@ -182,7 +182,6 @@ public class Izbornik extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAutor;

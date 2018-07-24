@@ -10,6 +10,7 @@ package kovacevic.ljetnizadatak;
  * @author Josip
  */
 public class Penjac {
+
     private int sifra;
     private String ime;
     private String prezime;
@@ -46,10 +47,11 @@ public class Penjac {
     public void setRezultat(String rezultat) {
         this.rezultat = rezultat;
     }
+
     @Override
-    public String toString(){
-        return (getPrezime()+ " "+ getIme());
-        
+    public String toString() {
+        return (getPrezime() + " " + getIme());
+
     }
-        
+
 }

@@ -10,6 +10,7 @@ package kovacevic.ljetnizadatak;
  * @author Josip
  */
 public class Penjaliste {
+
     private int sifra;
     private String naziv;
     private Double lat;
@@ -46,8 +47,9 @@ public class Penjaliste {
     public void setLon(Double lon) {
         this.lon = lon;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return getNaziv();
     }
 }

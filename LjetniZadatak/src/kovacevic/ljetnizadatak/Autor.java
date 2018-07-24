@@ -10,6 +10,7 @@ package kovacevic.ljetnizadatak;
  * @author Josip
  */
 public class Autor {
+
     private int sifra;
     private String ime;
     private String prezime;

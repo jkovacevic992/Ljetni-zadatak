@@ -5,17 +5,49 @@
  */
 package kovacevic.ljetnizadatak;
 
+import java.awt.Component;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Josip
  */
 public class Penjalista extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Penjaliste
-     */
+    private Connection veza;
+    private PreparedStatement izraz;
+
     public Penjalista() {
         initComponents();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            veza = DriverManager.getConnection("jdbc:mysql://localhost/penjalista?"
+                    + "user=edunova&password=edunova&serverTimezone=CET&useUnicode=true&characterEncoding=utf-8");
+            ucitajIzBaze();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
     }
 
     /**
@@ -27,28 +59,203 @@ public class Penjalista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlPodaci = new javax.swing.JPanel();
+        lblNaziv = new javax.swing.JLabel();
+        txtNaziv = new javax.swing.JTextField();
+        lblLon = new javax.swing.JLabel();
+        txtLon = new javax.swing.JTextField();
+        lblLat = new javax.swing.JLabel();
+        txtLat = new javax.swing.JTextField();
+        btnDodaj = new javax.swing.JButton();
+        btnPromjena = new javax.swing.JButton();
+        btnObrisi = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstPenjalista = new javax.swing.JList<>();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        lblNaziv.setText("Naziv");
+
+        lblLon.setText("Geografska dužina");
+
+        lblLat.setText("Geograska širina");
+
+        btnDodaj.setText("Dodaj");
+        btnDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajActionPerformed(evt);
+            }
+        });
+
+        btnPromjena.setText("Promjena");
+        btnPromjena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPromjenaActionPerformed(evt);
+            }
+        });
+
+        btnObrisi.setText("Obriši");
+        btnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlPodaciLayout = new javax.swing.GroupLayout(pnlPodaci);
+        pnlPodaci.setLayout(pnlPodaciLayout);
+        pnlPodaciLayout.setHorizontalGroup(
+            pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPodaciLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblNaziv)
+                    .addComponent(lblLon)
+                    .addComponent(lblLat)
+                    .addGroup(pnlPodaciLayout.createSequentialGroup()
+                        .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLat)
+                    .addComponent(txtLon)
+                    .addComponent(txtNaziv))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        pnlPodaciLayout.setVerticalGroup(
+            pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPodaciLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblNaziv)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblLon)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtLon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblLat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtLat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDodaj)
+                    .addComponent(btnPromjena)
+                    .addComponent(btnObrisi))
+                .addGap(27, 27, 27))
+        );
+
+        lstPenjalista.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstPenjalista.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstPenjalistaValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(lstPenjalista);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lstPenjalistaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPenjalistaValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lstPenjalistaValueChanged
+
+    private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDodajActionPerformed
+
+    private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPromjenaActionPerformed
+
+    private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnObrisiActionPerformed
+
     /**
      * @param args the command line arguments
      */
-   
+    private void ocistiPolja() {
 
+        for (Component c : pnlPodaci.getComponents()) {
+
+            if (c instanceof JTextField) {
+                ((JTextField) c).setText("");
+            }
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDodaj;
+    private javax.swing.JButton btnObrisi;
+    private javax.swing.JButton btnPromjena;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblLat;
+    private javax.swing.JLabel lblLon;
+    private javax.swing.JLabel lblNaziv;
+    private javax.swing.JList<Penjaliste> lstPenjalista;
+    private javax.swing.JPanel pnlPodaci;
+    private javax.swing.JTextField txtLat;
+    private javax.swing.JTextField txtLon;
+    private javax.swing.JTextField txtNaziv;
     // End of variables declaration//GEN-END:variables
+
+    private void ucitajIzBaze() {
+        try {
+            izraz = veza.prepareStatement("select * from penjaliste");
+            ResultSet rs = izraz.executeQuery();
+
+            List<Penjaliste> lista = new ArrayList<>();
+            Penjaliste p;
+            while (rs.next()) {
+                p = new Penjaliste();
+                p.setSifra(rs.getInt("sifra"));
+                p.setNaziv(rs.getString("naziv"));
+                p.setLon(rs.getDouble("lon"));
+                p.setLat(rs.getDouble("lat"));
+
+                lista.add(p);
+            }
+            rs.close();
+            izraz.close();
+
+            Collections.sort(lista, new Comparator<Penjaliste>() {
+                Collator col = Collator.getInstance(new Locale("hr", "HR"));
+
+                public int compare(Penjaliste p1, Penjaliste p2) {
+                    return col.compare(p1.getNaziv(), p2.getNaziv());
+                }
+            });
+            DefaultListModel<Penjaliste> m = new DefaultListModel<>();
+
+            lista.forEach((penjaliste) -> m.addElement(penjaliste));
+            lstPenjalista.setModel(m);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
 }
