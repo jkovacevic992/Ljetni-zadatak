@@ -21,10 +21,19 @@ Obavezni dio (OBAVLJENO):
 
 -Imati onoliko prozora koliko imate tablica u bazi koje u sebi nemaju vanjske ključeve
 
+-Svaki prozor mora omogućiti CRUD - unos, čitanje, promjenu i brisanje svih podataka koji nisu vezani u nekim drugim tablicama vanjskim ključem.
+
 TO DO:
 
+Napredni dio:
+
+-Za unos i promjenu u bazu potrebno je napraviti kontrole svih unosnih podataka
+
+-Stilski promijeniti zadani (default) izgled aplikacije - ovo nemojte raditi prije nego što riješite sve prethodne točke
 
 
--Svaki prozor mora omogućiti CRUD - unos, čitanje, promjenu i brisanje svih podataka koji nisu vezani u nekim drugim tablicama vanjskim ključem.
+
+
+
 
 
