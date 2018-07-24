@@ -5,12 +5,14 @@
  */
 package kovacevic.ljetnizadatak;
 
+import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import java.awt.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +22,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -112,15 +115,15 @@ public class Penjalista extends javax.swing.JFrame {
                     .addComponent(lblLon)
                     .addComponent(lblLat)
                     .addGroup(pnlPodaciLayout.createSequentialGroup()
-                        .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtLat)
                     .addComponent(txtLon)
                     .addComponent(txtNaziv))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         pnlPodaciLayout.setVerticalGroup(
             pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,14 +165,16 @@ public class Penjalista extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
@@ -179,19 +184,96 @@ public class Penjalista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lstPenjalistaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPenjalistaValueChanged
-        // TODO add your handling code here:
+       if (evt.getValueIsAdjusting()) {
+            return;
+        }
+
+        Penjaliste p = lstPenjalista.getSelectedValue();
+        if (p == null) {
+            return;
+        }
+        ocistiPolja();
+
+        txtNaziv.setText(p.getNaziv());
+        txtLat.setText(String.valueOf(p.getLat()));
+        txtLon.setText(String.valueOf(p.getLon()));
     }//GEN-LAST:event_lstPenjalistaValueChanged
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-        // TODO add your handling code here:
+       try {
+            izraz = veza.prepareStatement("insert into penjaliste (naziv,lat,lon)" + "value (?,?,?)");
+            izraz.setString(1, txtNaziv.getText());
+            izraz.setString(2, txtLat.getText());
+            izraz.setString(3, txtLon.getText());
+
+            if (izraz.executeUpdate() == 0) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije unesen nijedan red.");
+            } else {
+                ucitajIzBaze();
+                ocistiPolja();
+            }
+            izraz.close();
+
+        }catch (MysqlDataTruncation e){
+            JOptionPane.showMessageDialog(getRootPane(), "Geografska širina i/ili dužina pogrešno unesena.");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } 
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
-        // TODO add your handling code here:
+        Penjaliste p = lstPenjalista.getSelectedValue();
+        if (p == null) {
+            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjalište.");
+            return;
+        }
+        try {
+
+            NamedParameterStatement izraz = new NamedParameterStatement(veza, "update penjaliste set naziv=:naziv, "
+                    + " lat=:lat, lon=:lon "
+                    + " where sifra=:sifra");
+
+            izraz.setString("naziv", txtNaziv.getText());
+            izraz.setString("lat", txtLat.getText());
+            izraz.setString("lon", txtLon.getText());
+            izraz.setInt("sifra", p.getSifra());
+            if (izraz.izvedi() == 0) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije promijenjeno.");
+            } else {
+
+                ocistiPolja();
+                ucitajIzBaze();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        // TODO add your handling code here:
+        Penjaliste p = lstPenjalista.getSelectedValue();
+        if (p == null) {
+            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjalište.");
+            return;
+        }
+
+        try {
+            izraz = veza.prepareStatement("delete from penjaliste where sifra=?");
+            izraz.setInt(1, p.getSifra());
+
+            if (izraz.executeUpdate() == 0) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije obrisan nijedan red. ");
+            } else {
+                ucitajIzBaze();
+                ocistiPolja();
+            }
+            izraz.close();
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            JOptionPane.showMessageDialog(getRootPane(), "Nemoguće obrisati.");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
     }//GEN-LAST:event_btnObrisiActionPerformed
 
     /**
