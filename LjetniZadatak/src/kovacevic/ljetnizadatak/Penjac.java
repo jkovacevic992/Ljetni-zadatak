@@ -9,9 +9,10 @@ package kovacevic.ljetnizadatak;
  *
  * @author Josip
  */
-public class Penjaliste {
+public class Penjac {
     private int sifra;
-    private String naziv;
-    private Double lat;
-    private Double lon;
+    private String ime;
+    private String prezime;
+    private String rezultat;
+        
 }

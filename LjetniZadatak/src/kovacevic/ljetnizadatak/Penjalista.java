@@ -9,12 +9,12 @@ package kovacevic.ljetnizadatak;
  *
  * @author Josip
  */
-public class Osoba extends javax.swing.JFrame {
+public class Penjalista extends javax.swing.JFrame {
 
     /**
-     * Creates new form Osoba
+     * Creates new form Penjaliste
      */
-    public Osoba() {
+    public Penjalista() {
         initComponents();
     }
 
