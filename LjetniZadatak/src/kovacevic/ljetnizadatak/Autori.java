@@ -5,17 +5,48 @@
  */
 package kovacevic.ljetnizadatak;
 
+import java.awt.Component;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Josip
  */
 public class Autori extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Autor
-     */
+    private Connection veza;
+    private PreparedStatement izraz;
+
     public Autori() {
         initComponents();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            veza = DriverManager.getConnection("jdbc:mysql://localhost/penjalista?"
+                    + "user=edunova&password=edunova&serverTimezone=CET&useUnicode=true&characterEncoding=utf-8");
+            ucitajIzBaze();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -27,27 +58,270 @@ public class Autori extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlPodaci = new javax.swing.JPanel();
+        btnDodaj = new javax.swing.JButton();
+        btnPromjena = new javax.swing.JButton();
+        btnObrisi = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        txtIme = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtPrezime = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstAutori = new javax.swing.JList<>();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        btnDodaj.setText("Dodaj");
+        btnDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajActionPerformed(evt);
+            }
+        });
+
+        btnPromjena.setText("Promjena");
+        btnPromjena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPromjenaActionPerformed(evt);
+            }
+        });
+
+        btnObrisi.setText("Obriši");
+        btnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Ime");
+
+        jLabel2.setText("Prezime");
+
+        javax.swing.GroupLayout pnlPodaciLayout = new javax.swing.GroupLayout(pnlPodaci);
+        pnlPodaci.setLayout(pnlPodaciLayout);
+        pnlPodaciLayout.setHorizontalGroup(
+            pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPodaciLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlPodaciLayout.createSequentialGroup()
+                        .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addGroup(pnlPodaciLayout.createSequentialGroup()
+                                .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlPodaciLayout.createSequentialGroup()
+                        .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtPrezime, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtIme))
+                        .addContainerGap())))
+        );
+        pnlPodaciLayout.setVerticalGroup(
+            pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPodaciLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(txtIme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDodaj)
+                    .addComponent(btnPromjena)
+                    .addComponent(btnObrisi))
+                .addGap(19, 19, 19))
+        );
+
+        lstAutori.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstAutori.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstAutoriValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(lstAutori);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(28, 28, 28))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
+        try {
+            izraz = veza.prepareStatement("insert into autor (ime,prezime)" + "value (?,?)");
+            izraz.setString(1, txtIme.getText());
+            izraz.setString(2, txtPrezime.getText());
+
+            if (izraz.executeUpdate() == 0) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije unesen nijedan red.");
+            } else {
+                ucitajIzBaze();
+                ocistiPolja();
+            }
+            izraz.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }//GEN-LAST:event_btnDodajActionPerformed
+
+    private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
+        Autor a = lstAutori.getSelectedValue();
+        if (a == null) {
+            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi autora.");
+            return;
+        }
+        try {
+
+            NamedParameterStatement izraz = new NamedParameterStatement(veza, "update autor set ime=:ime, "
+                    + " prezime=:prezime "
+                    + " where sifra=:sifra");
+
+            izraz.setString("ime", txtIme.getText());
+            izraz.setString("prezime", txtPrezime.getText());
+
+            izraz.setInt("sifra", a.getSifra());
+            if (izraz.izvedi() == 0) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije promijenjeno.");
+            } else {
+
+                ocistiPolja();
+                ucitajIzBaze();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnPromjenaActionPerformed
+
+    private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+        Autor a = lstAutori.getSelectedValue();
+        if (a == null) {
+            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi autora.");
+            return;
+        }
+
+        try {
+            izraz = veza.prepareStatement("delete from autor where sifra=?");
+            izraz.setInt(1, a.getSifra());
+
+            if (izraz.executeUpdate() == 0) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije obrisan nijedan red. ");
+            } else {
+                ucitajIzBaze();
+                ocistiPolja();
+            }
+            izraz.close();
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            JOptionPane.showMessageDialog(getRootPane(), "Nemoguće obrisati.");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnObrisiActionPerformed
+
+    private void lstAutoriValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAutoriValueChanged
+        if (evt.getValueIsAdjusting()) {
+            return;
+        }
+
+        Autor a = lstAutori.getSelectedValue();
+        if (a == null) {
+            return;
+        }
+        ocistiPolja();
+
+        txtIme.setText(a.getIme());
+        txtPrezime.setText(a.getPrezime());
+    }//GEN-LAST:event_lstAutoriValueChanged
+
     /**
      * @param args the command line arguments
      */
+    private void ocistiPolja() {
 
+        for (Component c : pnlPodaci.getComponents()) {
+
+            if (c instanceof JTextField) {
+                ((JTextField) c).setText("");
+            }
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDodaj;
+    private javax.swing.JButton btnObrisi;
+    private javax.swing.JButton btnPromjena;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<Autor> lstAutori;
+    private javax.swing.JPanel pnlPodaci;
+    private javax.swing.JTextField txtIme;
+    private javax.swing.JTextField txtPrezime;
     // End of variables declaration//GEN-END:variables
+ private void ucitajIzBaze() {
+        try {
+            izraz = veza.prepareStatement("select * from autor");
+            ResultSet rs = izraz.executeQuery();
+
+            List<Autor> lista = new ArrayList<>();
+            Autor a;
+            while (rs.next()) {
+                a = new Autor();
+                a.setSifra(rs.getInt("sifra"));
+                a.setIme(rs.getString("ime"));
+                a.setPrezime(rs.getString("prezime"));
+
+                lista.add(a);
+            }
+            rs.close();
+            izraz.close();
+
+            Collections.sort(lista, new Comparator<Autor>() {
+                Collator col = Collator.getInstance(new Locale("hr", "HR"));
+
+                public int compare(Autor a1, Autor a2) {
+                    return col.compare(a1.getPrezime(), a2.getPrezime());
+                }
+            });
+            DefaultListModel<Autor> m = new DefaultListModel<>();
+
+            lista.forEach((autor) -> m.addElement(autor));
+            lstAutori.setModel(m);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
 }

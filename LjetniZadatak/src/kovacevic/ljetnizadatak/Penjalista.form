@@ -56,22 +56,24 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="lblNaziv" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblLon" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblLat" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="lblNaziv" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblLon" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblLat" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtLat" alignment="0" pref="294" max="32767" attributes="0"/>
+                          <Component id="txtLon" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtNaziv" alignment="0" max="32767" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="btnDodaj" min="-2" pref="90" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                           <Component id="btnPromjena" min="-2" pref="90" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnObrisi" min="-2" pref="90" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="txtLat" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txtLon" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txtNaziv" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="58" max="32767" attributes="0"/>
+                  <EmptySpace pref="50" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
