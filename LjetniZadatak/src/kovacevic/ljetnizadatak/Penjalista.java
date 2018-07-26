@@ -6,6 +6,7 @@
 package kovacevic.ljetnizadatak;
 
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
+import java.awt.Color;
 import java.awt.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,6 +23,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -36,6 +38,8 @@ public class Penjalista extends javax.swing.JFrame {
 
     public Penjalista() {
         initComponents();
+        getContentPane().setBackground(Color.decode("#082F4E"));
+        pnlPodaci.setBackground(Color.decode("#082F4E"));
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -77,27 +81,60 @@ public class Penjalista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        lblNaziv.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblNaziv.setForeground(new java.awt.Color(255, 255, 255));
         lblNaziv.setText("Naziv");
 
+        lblLon.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblLon.setForeground(new java.awt.Color(255, 255, 255));
         lblLon.setText("Geografska dužina");
 
+        lblLat.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblLat.setForeground(new java.awt.Color(255, 255, 255));
         lblLat.setText("Geograska širina");
 
+        btnDodaj.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnDodaj.setText("Dodaj");
+        btnDodaj.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDodajMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDodajMouseExited(evt);
+            }
+        });
         btnDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDodajActionPerformed(evt);
             }
         });
 
+        btnPromjena.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnPromjena.setText("Promjena");
+        btnPromjena.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnPromjenaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnPromjenaMouseExited(evt);
+            }
+        });
         btnPromjena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPromjenaActionPerformed(evt);
             }
         });
 
+        btnObrisi.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnObrisi.setText("Obriši");
+        btnObrisi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnObrisiMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnObrisiMouseExited(evt);
+            }
+        });
         btnObrisi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnObrisiActionPerformed(evt);
@@ -110,21 +147,20 @@ public class Penjalista extends javax.swing.JFrame {
             pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPodaciLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lblNaziv)
-                        .addComponent(lblLon)
-                        .addComponent(lblLat)
-                        .addComponent(txtLat, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-                        .addComponent(txtLon)
-                        .addComponent(txtNaziv))
+                .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblNaziv)
+                    .addComponent(lblLon)
+                    .addComponent(lblLat)
+                    .addComponent(txtLon)
+                    .addComponent(txtLat)
                     .addGroup(pnlPodaciLayout.createSequentialGroup()
                         .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNaziv))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         pnlPodaciLayout.setVerticalGroup(
             pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,7 +213,7 @@ public class Penjalista extends javax.swing.JFrame {
                         .addGap(12, 12, 12)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -276,6 +312,30 @@ public class Penjalista extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnObrisiActionPerformed
+
+    private void btnDodajMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseEntered
+         btnDodaj.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_btnDodajMouseEntered
+
+    private void btnDodajMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseExited
+        btnDodaj.setBackground(new JButton().getBackground());
+    }//GEN-LAST:event_btnDodajMouseExited
+
+    private void btnPromjenaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPromjenaMouseEntered
+        btnPromjena.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_btnPromjenaMouseEntered
+
+    private void btnPromjenaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPromjenaMouseExited
+        btnPromjena.setBackground(new JButton().getBackground());
+    }//GEN-LAST:event_btnPromjenaMouseExited
+
+    private void btnObrisiMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObrisiMouseEntered
+        btnObrisi.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_btnObrisiMouseEntered
+
+    private void btnObrisiMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObrisiMouseExited
+         btnObrisi.setBackground(new JButton().getBackground());
+    }//GEN-LAST:event_btnObrisiMouseExited
 
     /**
      * @param args the command line arguments

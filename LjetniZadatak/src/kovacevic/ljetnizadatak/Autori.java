@@ -5,6 +5,7 @@
  */
 package kovacevic.ljetnizadatak;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,6 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -33,6 +35,8 @@ public class Autori extends javax.swing.JFrame {
 
     public Autori() {
         initComponents();
+        getContentPane().setBackground(Color.decode("#082F4E"));
+        pnlPodaci.setBackground(Color.decode("#082F4E"));
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -71,29 +75,60 @@ public class Autori extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        btnDodaj.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnDodaj.setText("Dodaj");
+        btnDodaj.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDodajMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDodajMouseExited(evt);
+            }
+        });
         btnDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDodajActionPerformed(evt);
             }
         });
 
+        btnPromjena.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnPromjena.setText("Promjena");
+        btnPromjena.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnPromjenaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnPromjenaMouseExited(evt);
+            }
+        });
         btnPromjena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPromjenaActionPerformed(evt);
             }
         });
 
+        btnObrisi.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnObrisi.setText("Obriši");
+        btnObrisi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnObrisiMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnObrisiMouseExited(evt);
+            }
+        });
         btnObrisi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnObrisiActionPerformed(evt);
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Ime");
 
+        jLabel2.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Prezime");
 
         javax.swing.GroupLayout pnlPodaciLayout = new javax.swing.GroupLayout(pnlPodaci);
@@ -263,6 +298,30 @@ public class Autori extends javax.swing.JFrame {
         txtIme.setText(a.getIme());
         txtPrezime.setText(a.getPrezime());
     }//GEN-LAST:event_lstAutoriValueChanged
+
+    private void btnDodajMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseEntered
+         btnDodaj.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_btnDodajMouseEntered
+
+    private void btnDodajMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseExited
+        btnDodaj.setBackground(new JButton().getBackground());
+    }//GEN-LAST:event_btnDodajMouseExited
+
+    private void btnPromjenaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPromjenaMouseEntered
+        btnPromjena.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_btnPromjenaMouseEntered
+
+    private void btnPromjenaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPromjenaMouseExited
+        btnPromjena.setBackground(new JButton().getBackground());
+    }//GEN-LAST:event_btnPromjenaMouseExited
+
+    private void btnObrisiMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObrisiMouseEntered
+        btnObrisi.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_btnObrisiMouseEntered
+
+    private void btnObrisiMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObrisiMouseExited
+        btnObrisi.setBackground(new JButton().getBackground());
+    }//GEN-LAST:event_btnObrisiMouseExited
 
     /**
      * @param args the command line arguments

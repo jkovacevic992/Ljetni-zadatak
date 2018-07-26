@@ -5,7 +5,9 @@
  */
 package kovacevic.ljetnizadatak;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,8 +23,10 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 /**
  *
@@ -35,6 +39,8 @@ public class Penjaci extends javax.swing.JFrame {
 
     public Penjaci() {
         initComponents();
+        getContentPane().setBackground(Color.decode("#082F4E"));
+        pnlPodaci.setBackground(Color.decode("#082F4E"));
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -74,6 +80,7 @@ public class Penjaci extends javax.swing.JFrame {
         btnObrisi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         lstPenjaci.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstPenjaci.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -83,27 +90,60 @@ public class Penjaci extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(lstPenjaci);
 
+        lblIme.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblIme.setForeground(new java.awt.Color(255, 255, 255));
         lblIme.setText("Ime");
 
+        lblPrezime.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblPrezime.setForeground(new java.awt.Color(255, 255, 255));
         lblPrezime.setText("Prezime");
 
+        lblRezultat.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblRezultat.setForeground(new java.awt.Color(255, 255, 255));
         lblRezultat.setText("Rezultat");
 
+        btnDodaj.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnDodaj.setText("Dodaj");
+        btnDodaj.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDodajMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDodajMouseExited(evt);
+            }
+        });
         btnDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDodajActionPerformed(evt);
             }
         });
 
+        btnPromjena.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnPromjena.setText("Promjena");
+        btnPromjena.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnPromjenaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnPromjenaMouseExited(evt);
+            }
+        });
         btnPromjena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPromjenaActionPerformed(evt);
             }
         });
 
+        btnObrisi.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnObrisi.setText("Obriši");
+        btnObrisi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnObrisiMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnObrisiMouseExited(evt);
+            }
+        });
         btnObrisi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnObrisiActionPerformed(evt);
@@ -120,15 +160,18 @@ public class Penjaci extends javax.swing.JFrame {
                     .addComponent(txtRezultat)
                     .addComponent(txtIme)
                     .addComponent(txtPrezime)
-                    .addComponent(lblIme)
-                    .addComponent(lblPrezime)
-                    .addComponent(lblRezultat)
                     .addGroup(pnlPodaciLayout.createSequentialGroup()
-                        .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblIme)
+                            .addComponent(lblPrezime)
+                            .addComponent(lblRezultat)
+                            .addGroup(pnlPodaciLayout.createSequentialGroup()
+                                .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlPodaciLayout.setVerticalGroup(
@@ -160,7 +203,7 @@ public class Penjaci extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -172,9 +215,9 @@ public class Penjaci extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -277,6 +320,30 @@ public class Penjaci extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnObrisiActionPerformed
 
+    private void btnDodajMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseEntered
+        btnDodaj.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_btnDodajMouseEntered
+
+    private void btnDodajMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseExited
+        btnDodaj.setBackground(new JButton().getBackground());
+    }//GEN-LAST:event_btnDodajMouseExited
+
+    private void btnPromjenaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPromjenaMouseEntered
+        btnPromjena.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_btnPromjenaMouseEntered
+
+    private void btnPromjenaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPromjenaMouseExited
+        btnPromjena.setBackground(new JButton().getBackground());
+    }//GEN-LAST:event_btnPromjenaMouseExited
+
+    private void btnObrisiMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObrisiMouseEntered
+        btnObrisi.setBackground(Color.LIGHT_GRAY);
+    }//GEN-LAST:event_btnObrisiMouseEntered
+
+    private void btnObrisiMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObrisiMouseExited
+        btnObrisi.setBackground(new JButton().getBackground());
+    }//GEN-LAST:event_btnObrisiMouseExited
+   
     /**
      * @param args the command line arguments
      */

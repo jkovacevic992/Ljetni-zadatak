@@ -5,6 +5,7 @@
  */
 package kovacevic.ljetnizadatak;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -24,6 +25,8 @@ public class Izbornik extends javax.swing.JFrame {
      */
     public Izbornik() {
         initComponents();
+        getContentPane().setBackground(Color.decode("#082F4E"));
+        pnlIzbornik.setBackground(Color.decode("#082F4E"));
     }
 
     /**
@@ -35,23 +38,20 @@ public class Izbornik extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnZatvori = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        pnlIzbornik = new javax.swing.JPanel();
         btnPenjaliste = new javax.swing.JButton();
         btnAutor = new javax.swing.JButton();
         btnPenjac = new javax.swing.JButton();
         btnGit = new javax.swing.JButton();
         btnEra = new javax.swing.JButton();
+        lblSlika = new javax.swing.JLabel();
+        btnZatvori = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setForeground(java.awt.Color.white);
 
-        btnZatvori.setText("Zatvori");
-        btnZatvori.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnZatvoriActionPerformed(evt);
-            }
-        });
-
+        btnPenjaliste.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnPenjaliste.setText("Penjališta");
         btnPenjaliste.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,6 +59,7 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
+        btnAutor.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnAutor.setText("Autori");
         btnAutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,6 +67,7 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
+        btnPenjac.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnPenjac.setText("Penjači");
         btnPenjac.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -73,6 +75,7 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
+        btnGit.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnGit.setText("GitHub");
         btnGit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,6 +83,7 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
+        btnEra.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnEra.setText("ERA dijagram");
         btnEra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,57 +91,69 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        lblSlika.setIcon(new javax.swing.ImageIcon("D:\\Programiranje\\edunova\\climber1.png")); // NOI18N
+
+        btnZatvori.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        btnZatvori.setText("Zatvori");
+        btnZatvori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZatvoriActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlIzbornikLayout = new javax.swing.GroupLayout(pnlIzbornik);
+        pnlIzbornik.setLayout(pnlIzbornikLayout);
+        pnlIzbornikLayout.setHorizontalGroup(
+            pnlIzbornikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlIzbornikLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnlIzbornikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnEra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnGit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPenjac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnPenjaliste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 86, Short.MAX_VALUE))
+                    .addComponent(btnPenjaliste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnZatvori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(lblSlika, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+        pnlIzbornikLayout.setVerticalGroup(
+            pnlIzbornikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlIzbornikLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
                 .addComponent(btnPenjaliste)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnAutor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnPenjac)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnGit)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnEra)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnZatvori)
+                .addContainerGap(32, Short.MAX_VALUE))
+            .addGroup(pnlIzbornikLayout.createSequentialGroup()
+                .addComponent(lblSlika, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnZatvori)
-                .addGap(21, 21, 21))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addComponent(pnlIzbornik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(54, 54, 54)
-                .addComponent(btnZatvori)
-                .addGap(25, 25, 25))
+                .addComponent(pnlIzbornik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -190,6 +206,7 @@ public class Izbornik extends javax.swing.JFrame {
     private javax.swing.JButton btnPenjac;
     private javax.swing.JButton btnPenjaliste;
     private javax.swing.JButton btnZatvori;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblSlika;
+    private javax.swing.JPanel pnlIzbornik;
     // End of variables declaration//GEN-END:variables
 }
