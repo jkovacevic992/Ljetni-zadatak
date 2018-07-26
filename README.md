@@ -1,7 +1,9 @@
 # Ljetni-zadatak
 Edunova ljetni zadatak
 
-Obavezni dio (OBAVLJENO):
+OBAVLJENO:
+
+*OBAVEZNI DIO:
 
 -Za razvoj aplikacije koristiti NetBeans
 
@@ -23,13 +25,17 @@ Obavezni dio (OBAVLJENO):
 
 -Svaki prozor mora omogućiti CRUD - unos, čitanje, promjenu i brisanje svih podataka koji nisu vezani u nekim drugim tablicama vanjskim ključem.
 
+*NAPREDNI DIO:
+
+-Stilski promijeniti zadani (default) izgled aplikacije - ovo nemojte raditi prije nego što riješite sve prethodne točke
+
 TO DO:
 
 Napredni dio:
 
 -Za unos i promjenu u bazu potrebno je napraviti kontrole svih unosnih podataka
 
--Stilski promijeniti zadani (default) izgled aplikacije - ovo nemojte raditi prije nego što riješite sve prethodne točke
+
 
 
 
