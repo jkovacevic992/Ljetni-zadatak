@@ -91,7 +91,7 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
-        lblSlika.setIcon(new javax.swing.ImageIcon("D:\\Programiranje\\edunova\\climber1.png")); // NOI18N
+        lblSlika.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kovacevic/ljetnizadatak/climber1.png"))); // NOI18N
 
         btnZatvori.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnZatvori.setText("Zatvori");
