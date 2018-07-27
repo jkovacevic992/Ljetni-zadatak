@@ -254,6 +254,10 @@ public class Penjaci extends javax.swing.JFrame {
              if(StringUtils.isNullOrEmpty(txtRezultat.getText())) {
                 JOptionPane.showMessageDialog(getRootPane(), "Nije unesen rezultat.");
                 return;}
+             if (!txtIme.getText().matches("[a-zA-Z_]+") || !txtPrezime.getText().matches("[a-zA-Z_]+")) {
+                JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
+                return;
+}
             if (izraz.executeUpdate()!= 0) {
                 ucitajIzBaze();
                 ocistiPolja();
@@ -286,6 +290,10 @@ public class Penjaci extends javax.swing.JFrame {
             izraz.setString("prezime", txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
             izraz.setString("rezultat", txtRezultat.getText());
             izraz.setInt("sifra", p.getSifra());
+             if (!txtIme.getText().matches("[a-zA-Z_]+") || !txtPrezime.getText().matches("[a-zA-Z_]+")) {
+                JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
+                return;
+}
             if (izraz.izvedi() != 0)  {
 
                 ocistiPolja();

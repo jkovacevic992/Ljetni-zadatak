@@ -221,13 +221,18 @@ public class Autori extends javax.swing.JFrame {
             izraz.setString(1, txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
             izraz.setString(2, txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
             
-            
+            if (!txtIme.getText().matches("[a-zA-Z_]+") || !txtPrezime.getText().matches("[a-zA-Z_]+")) {
+                JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
+                return;
+}
 
             if(izraz.executeUpdate()!=0){
                 ucitajIzBaze();
                 ocistiPolja();
                 
             }
+            
+           
             
             izraz.close();
 
@@ -258,7 +263,7 @@ public class Autori extends javax.swing.JFrame {
 
             izraz.setInt("sifra", a.getSifra());
              if(!txtIme.getText().matches("[a-zA-Z]+") || !txtPrezime.getText().matches("[a-zA-Z]+")){
-                JOptionPane.showMessageDialog(getRootPane(), "Možete unijeti samo slova.");
+                JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
                 return;
             }
             if (izraz.izvedi() != 0)  {

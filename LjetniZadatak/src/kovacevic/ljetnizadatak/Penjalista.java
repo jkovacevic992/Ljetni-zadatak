@@ -243,6 +243,10 @@ public class Penjalista extends javax.swing.JFrame {
             izraz.setString(1, txtNaziv.getText().substring(0, 1).toUpperCase()+txtNaziv.getText().substring(1).toLowerCase());
             izraz.setString(2, txtLat.getText());
             izraz.setString(3, txtLon.getText());
+            if (!txtNaziv.getText().matches("[a-zA-Z_]+")) {
+                JOptionPane.showMessageDialog(getRootPane(), "Naziv može sadržavati samo slova.");
+                return;
+}
 
             if (StringUtils.isNullOrEmpty(txtLat.getText())) {
                 JOptionPane.showMessageDialog(getRootPane(), "Nije unesena geografska širina.");
@@ -283,6 +287,10 @@ public class Penjalista extends javax.swing.JFrame {
             izraz.setString("lat", txtLat.getText());
             izraz.setString("lon", txtLon.getText());
             izraz.setInt("sifra", p.getSifra());
+            if (!txtNaziv.getText().matches("[a-zA-Z_]+")) {
+                JOptionPane.showMessageDialog(getRootPane(), "Naziv može sadržavati samo slova.");
+                return;
+}
              if (StringUtils.isNullOrEmpty(txtLat.getText())) {
                 JOptionPane.showMessageDialog(getRootPane(), "Nije unesena geografska širina.");
                 return;
