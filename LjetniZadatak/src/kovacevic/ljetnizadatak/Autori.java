@@ -5,6 +5,7 @@
  */
 package kovacevic.ljetnizadatak;
 
+import com.mysql.cj.util.StringUtils;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.Connection;
@@ -212,19 +213,28 @@ public class Autori extends javax.swing.JFrame {
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
         try {
-            izraz = veza.prepareStatement("insert into autor (ime,prezime)" + "value (?,?)");
-            izraz.setString(1, txtIme.getText());
-            izraz.setString(2, txtPrezime.getText());
+                      
+             
+        izraz = veza.prepareStatement("insert into autor (ime,prezime)" + "value (?,?)");
 
-            if (izraz.executeUpdate() == 0) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije unesen nijedan red.");
-            } else {
+            
+            izraz.setString(1, txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
+            izraz.setString(2, txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
+            
+            
+
+            if(izraz.executeUpdate()!=0){
                 ucitajIzBaze();
                 ocistiPolja();
+                
             }
+            
             izraz.close();
 
-        } catch (SQLException ex) {
+        } catch(StringIndexOutOfBoundsException str){
+            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci.");
+        }
+                catch (SQLException ex) {
             ex.printStackTrace();
         }
 
@@ -236,23 +246,28 @@ public class Autori extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi autora.");
             return;
         }
+        
         try {
 
             NamedParameterStatement izraz = new NamedParameterStatement(veza, "update autor set ime=:ime, "
                     + " prezime=:prezime "
                     + " where sifra=:sifra");
 
-            izraz.setString("ime", txtIme.getText());
-            izraz.setString("prezime", txtPrezime.getText());
+            izraz.setString("ime", txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
+            izraz.setString("prezime", txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
 
             izraz.setInt("sifra", a.getSifra());
-            if (izraz.izvedi() == 0) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije promijenjeno.");
-            } else {
+             if(!txtIme.getText().matches("[a-zA-Z]+") || !txtPrezime.getText().matches("[a-zA-Z]+")){
+                JOptionPane.showMessageDialog(getRootPane(), "Možete unijeti samo slova.");
+                return;
+            }
+            if (izraz.izvedi() != 0)  {
 
                 ocistiPolja();
                 ucitajIzBaze();
             }
+        } catch(StringIndexOutOfBoundsException str){
+            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

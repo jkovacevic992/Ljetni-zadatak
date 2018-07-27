@@ -5,6 +5,7 @@
  */
 package kovacevic.ljetnizadatak;
 
+import com.mysql.cj.util.StringUtils;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -245,18 +246,23 @@ public class Penjaci extends javax.swing.JFrame {
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
         try {
             izraz = veza.prepareStatement("insert into penjac (ime,prezime,rezultat)" + "value (?,?,?)");
-            izraz.setString(1, txtIme.getText());
-            izraz.setString(2, txtPrezime.getText());
+            izraz.setString(1, txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
+            izraz.setString(2, txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
             izraz.setString(3, txtRezultat.getText());
 
-            if (izraz.executeUpdate() == 0) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije unesen nijedan red.");
-            } else {
+            
+             if(StringUtils.isNullOrEmpty(txtRezultat.getText())) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije unesen rezultat.");
+                return;}
+            if (izraz.executeUpdate()!= 0) {
                 ucitajIzBaze();
                 ocistiPolja();
+                
             }
             izraz.close();
 
+        } catch(StringIndexOutOfBoundsException str){
+            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -276,18 +282,19 @@ public class Penjaci extends javax.swing.JFrame {
                     + " prezime=:prezime, rezultat=:rezultat "
                     + " where sifra=:sifra");
 
-            izraz.setString("ime", txtIme.getText());
-            izraz.setString("prezime", txtPrezime.getText());
+            izraz.setString("ime", txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
+            izraz.setString("prezime", txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
             izraz.setString("rezultat", txtRezultat.getText());
             izraz.setInt("sifra", p.getSifra());
-            if (izraz.izvedi() == 0) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije promijenjeno.");
-            } else {
+            if (izraz.izvedi() != 0)  {
 
                 ocistiPolja();
                 ucitajIzBaze();
             }
-        } catch (Exception ex) {
+        }catch(StringIndexOutOfBoundsException str){
+            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
+        } 
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnPromjenaActionPerformed

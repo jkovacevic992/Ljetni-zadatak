@@ -6,6 +6,7 @@
 package kovacevic.ljetnizadatak;
 
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
+import com.mysql.cj.util.StringUtils;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.Connection;
@@ -221,7 +222,7 @@ public class Penjalista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lstPenjalistaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPenjalistaValueChanged
-       if (evt.getValueIsAdjusting()) {
+        if (evt.getValueIsAdjusting()) {
             return;
         }
 
@@ -237,25 +238,33 @@ public class Penjalista extends javax.swing.JFrame {
     }//GEN-LAST:event_lstPenjalistaValueChanged
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-       try {
+        try {
             izraz = veza.prepareStatement("insert into penjaliste (naziv,lat,lon)" + "value (?,?,?)");
-            izraz.setString(1, txtNaziv.getText());
+            izraz.setString(1, txtNaziv.getText().substring(0, 1).toUpperCase()+txtNaziv.getText().substring(1).toLowerCase());
             izraz.setString(2, txtLat.getText());
             izraz.setString(3, txtLon.getText());
 
-            if (izraz.executeUpdate() == 0) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije unesen nijedan red.");
-            } else {
+            if (StringUtils.isNullOrEmpty(txtLat.getText())) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije unesena geografska širina.");
+                return;
+            } else if (StringUtils.isNullOrEmpty(txtLon.getText())) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije unesena geografska dužina.");
+                return;
+            }
+            if (izraz.executeUpdate() != 0) {
                 ucitajIzBaze();
                 ocistiPolja();
+
             }
             izraz.close();
 
-        }catch (MysqlDataTruncation e){
+        } catch(StringIndexOutOfBoundsException str){
+            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
+        } catch (MysqlDataTruncation e) {
             JOptionPane.showMessageDialog(getRootPane(), "Geografska širina i/ili dužina pogrešno unesena.");
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } 
+        }
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
@@ -270,17 +279,26 @@ public class Penjalista extends javax.swing.JFrame {
                     + " lat=:lat, lon=:lon "
                     + " where sifra=:sifra");
 
-            izraz.setString("naziv", txtNaziv.getText());
+            izraz.setString("naziv", txtNaziv.getText().substring(0, 1).toUpperCase()+txtNaziv.getText().substring(1).toLowerCase());
             izraz.setString("lat", txtLat.getText());
             izraz.setString("lon", txtLon.getText());
             izraz.setInt("sifra", p.getSifra());
-            if (izraz.izvedi() == 0) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije promijenjeno.");
-            } else {
-
-                ocistiPolja();
-                ucitajIzBaze();
+             if (StringUtils.isNullOrEmpty(txtLat.getText())) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije unesena geografska širina.");
+                return;
+            } else if (StringUtils.isNullOrEmpty(txtLon.getText())) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije unesena geografska dužina.");
+                return;
             }
+            if (izraz.izvedi() != 0) {
+                ucitajIzBaze();
+                ocistiPolja();
+
+            }
+        } catch(StringIndexOutOfBoundsException str){
+            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
+        } catch (MysqlDataTruncation e) {
+            JOptionPane.showMessageDialog(getRootPane(), "Geografska širina i/ili dužina pogrešno unesena.");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -314,7 +332,7 @@ public class Penjalista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnObrisiActionPerformed
 
     private void btnDodajMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseEntered
-         btnDodaj.setBackground(Color.LIGHT_GRAY);
+        btnDodaj.setBackground(Color.LIGHT_GRAY);
     }//GEN-LAST:event_btnDodajMouseEntered
 
     private void btnDodajMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseExited
@@ -334,7 +352,7 @@ public class Penjalista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnObrisiMouseEntered
 
     private void btnObrisiMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObrisiMouseExited
-         btnObrisi.setBackground(new JButton().getBackground());
+        btnObrisi.setBackground(new JButton().getBackground());
     }//GEN-LAST:event_btnObrisiMouseExited
 
     /**
