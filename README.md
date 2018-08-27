@@ -27,13 +27,14 @@ OBAVLJENO:
 
 *NAPREDNI DIO:
 
+-Za unos i promjenu u bazu potrebno je napraviti kontrole svih unosnih podataka
+
 -Stilski promijeniti zadani (default) izgled aplikacije - ovo nemojte raditi prije nego što riješite sve prethodne točke
 
-TO DO:
 
-Napredni dio:
 
--Za unos i promjenu u bazu potrebno je napraviti kontrole svih unosnih podataka
+
+
 
 
 
