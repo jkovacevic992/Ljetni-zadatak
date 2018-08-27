@@ -5,6 +5,8 @@
  */
 package kovacevic.ljetnizadatak;
 
+import kovacevic.view.Izbornik;
+
 /**
  *
  * @author Josip

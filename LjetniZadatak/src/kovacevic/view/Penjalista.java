@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.ljetnizadatak;
+package kovacevic.view;
 
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import com.mysql.cj.util.StringUtils;
@@ -27,6 +27,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import kovacevic.ljetnizadatak.NamedParameterStatement;
+import kovacevic.model.Penjaliste;
 
 /**
  *

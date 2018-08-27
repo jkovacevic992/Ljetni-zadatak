@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.ljetnizadatak;
+package kovacevic.view;
 
 import com.mysql.cj.util.StringUtils;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,21 +21,26 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import kovacevic.ljetnizadatak.NamedParameterStatement;
+import kovacevic.model.Penjac;
 
 /**
  *
  * @author Josip
  */
-public class Autori extends javax.swing.JFrame {
+public class Penjaci extends javax.swing.JFrame {
 
     private Connection veza;
     private PreparedStatement izraz;
 
-    public Autori() {
+    public Penjaci() {
         initComponents();
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlPodaci.setBackground(Color.decode("#082F4E"));
@@ -63,18 +69,41 @@ public class Autori extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstPenjaci = new javax.swing.JList<>();
         pnlPodaci = new javax.swing.JPanel();
+        lblIme = new javax.swing.JLabel();
+        txtIme = new javax.swing.JTextField();
+        lblPrezime = new javax.swing.JLabel();
+        txtPrezime = new javax.swing.JTextField();
+        lblRezultat = new javax.swing.JLabel();
+        txtRezultat = new javax.swing.JTextField();
         btnDodaj = new javax.swing.JButton();
         btnPromjena = new javax.swing.JButton();
         btnObrisi = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        txtIme = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        txtPrezime = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstAutori = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        lstPenjaci.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstPenjaci.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstPenjaciValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(lstPenjaci);
+
+        lblIme.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblIme.setForeground(new java.awt.Color(255, 255, 255));
+        lblIme.setText("Ime");
+
+        lblPrezime.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblPrezime.setForeground(new java.awt.Color(255, 255, 255));
+        lblPrezime.setText("Prezime");
+
+        lblRezultat.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblRezultat.setForeground(new java.awt.Color(255, 255, 255));
+        lblRezultat.setText("Rezultat");
 
         btnDodaj.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnDodaj.setText("Dodaj");
@@ -124,14 +153,6 @@ public class Autori extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Ime");
-
-        jLabel2.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Prezime");
-
         javax.swing.GroupLayout pnlPodaciLayout = new javax.swing.GroupLayout(pnlPodaci);
         pnlPodaci.setLayout(pnlPodaciLayout);
         pnlPodaciLayout.setHorizontalGroup(
@@ -139,155 +160,165 @@ public class Autori extends javax.swing.JFrame {
             .addGroup(pnlPodaciLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtRezultat)
+                    .addComponent(txtIme)
+                    .addComponent(txtPrezime)
                     .addGroup(pnlPodaciLayout.createSequentialGroup()
                         .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
+                            .addComponent(lblIme)
+                            .addComponent(lblPrezime)
+                            .addComponent(lblRezultat)
                             .addGroup(pnlPodaciLayout.createSequentialGroup()
                                 .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(pnlPodaciLayout.createSequentialGroup()
-                        .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtPrezime, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIme))
-                        .addContainerGap())))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pnlPodaciLayout.setVerticalGroup(
             pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPodaciLayout.createSequentialGroup()
+            .addGroup(pnlPodaciLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addComponent(lblIme)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtIme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblPrezime)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblRezultat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtRezultat, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDodaj)
                     .addComponent(btnPromjena)
                     .addComponent(btnObrisi))
-                .addGap(19, 19, 19))
+                .addContainerGap())
         );
-
-        lstAutori.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        lstAutori.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstAutoriValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(lstAutori);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lstPenjaciValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPenjaciValueChanged
+        if (evt.getValueIsAdjusting()) {
+            return;
+        }
+
+        Penjac p = lstPenjaci.getSelectedValue();
+        if (p == null) {
+            return;
+        }
+        ocistiPolja();
+
+        txtIme.setText(p.getIme());
+        txtPrezime.setText(p.getPrezime());
+        txtRezultat.setText(p.getRezultat());
+
+
+    }//GEN-LAST:event_lstPenjaciValueChanged
+
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
         try {
-                      
-             
-        izraz = veza.prepareStatement("insert into autor (ime,prezime)" + "value (?,?)");
-
-            
+            izraz = veza.prepareStatement("insert into penjac (ime,prezime,rezultat)" + "value (?,?,?)");
             izraz.setString(1, txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
             izraz.setString(2, txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
+            izraz.setString(3, txtRezultat.getText());
+
             
-            if (!txtIme.getText().matches("[a-zA-Z_]+") || !txtPrezime.getText().matches("[a-zA-Z_]+")) {
+             if(StringUtils.isNullOrEmpty(txtRezultat.getText())) {
+                JOptionPane.showMessageDialog(getRootPane(), "Nije unesen rezultat.");
+                return;}
+             if (!txtIme.getText().matches("[a-zA-Z_]+") || !txtPrezime.getText().matches("[a-zA-Z_]+")) {
                 JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
                 return;
 }
-
-            if(izraz.executeUpdate()!=0){
+            if (izraz.executeUpdate()!= 0) {
                 ucitajIzBaze();
                 ocistiPolja();
                 
             }
-            
-           
-            
             izraz.close();
 
         } catch(StringIndexOutOfBoundsException str){
-            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci.");
-        }
-                catch (SQLException ex) {
+            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
-        Autor a = lstAutori.getSelectedValue();
-        if (a == null) {
-            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi autora.");
+
+        Penjac p = lstPenjaci.getSelectedValue();
+        if (p == null) {
+            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjača.");
             return;
         }
-        
         try {
 
-            NamedParameterStatement izraz = new NamedParameterStatement(veza, "update autor set ime=:ime, "
-                    + " prezime=:prezime "
+            NamedParameterStatement izraz = new NamedParameterStatement(veza, "update penjac set ime=:ime, "
+                    + " prezime=:prezime, rezultat=:rezultat "
                     + " where sifra=:sifra");
 
             izraz.setString("ime", txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
             izraz.setString("prezime", txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
-
-            izraz.setInt("sifra", a.getSifra());
-             if(!txtIme.getText().matches("[a-zA-Z]+") || !txtPrezime.getText().matches("[a-zA-Z]+")){
+            izraz.setString("rezultat", txtRezultat.getText());
+            izraz.setInt("sifra", p.getSifra());
+             if (!txtIme.getText().matches("[a-zA-Z_]+") || !txtPrezime.getText().matches("[a-zA-Z_]+")) {
                 JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
                 return;
-            }
+}
             if (izraz.izvedi() != 0)  {
 
                 ocistiPolja();
                 ucitajIzBaze();
             }
-        } catch(StringIndexOutOfBoundsException str){
+        }catch(StringIndexOutOfBoundsException str){
             JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        Autor a = lstAutori.getSelectedValue();
-        if (a == null) {
-            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi autora.");
+        Penjac p = lstPenjaci.getSelectedValue();
+        if (p == null) {
+            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjača.");
             return;
         }
 
         try {
-            izraz = veza.prepareStatement("delete from autor where sifra=?");
-            izraz.setInt(1, a.getSifra());
+            izraz = veza.prepareStatement("delete from penjac where sifra=?");
+            izraz.setInt(1, p.getSifra());
 
             if (izraz.executeUpdate() == 0) {
                 JOptionPane.showMessageDialog(getRootPane(), "Nije obrisan nijedan red. ");
@@ -302,25 +333,12 @@ public class Autori extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+
+
     }//GEN-LAST:event_btnObrisiActionPerformed
 
-    private void lstAutoriValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAutoriValueChanged
-        if (evt.getValueIsAdjusting()) {
-            return;
-        }
-
-        Autor a = lstAutori.getSelectedValue();
-        if (a == null) {
-            return;
-        }
-        ocistiPolja();
-
-        txtIme.setText(a.getIme());
-        txtPrezime.setText(a.getPrezime());
-    }//GEN-LAST:event_lstAutoriValueChanged
-
     private void btnDodajMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseEntered
-         btnDodaj.setBackground(Color.LIGHT_GRAY);
+        btnDodaj.setBackground(Color.LIGHT_GRAY);
     }//GEN-LAST:event_btnDodajMouseEntered
 
     private void btnDodajMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseExited
@@ -342,7 +360,7 @@ public class Autori extends javax.swing.JFrame {
     private void btnObrisiMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObrisiMouseExited
         btnObrisi.setBackground(new JButton().getBackground());
     }//GEN-LAST:event_btnObrisiMouseExited
-
+   
     /**
      * @param args the command line arguments
      */
@@ -355,48 +373,51 @@ public class Autori extends javax.swing.JFrame {
             }
         }
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjena;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<Autor> lstAutori;
+    private javax.swing.JLabel lblIme;
+    private javax.swing.JLabel lblPrezime;
+    private javax.swing.JLabel lblRezultat;
+    private javax.swing.JList<Penjac> lstPenjaci;
     private javax.swing.JPanel pnlPodaci;
     private javax.swing.JTextField txtIme;
     private javax.swing.JTextField txtPrezime;
+    private javax.swing.JTextField txtRezultat;
     // End of variables declaration//GEN-END:variables
- private void ucitajIzBaze() {
+private void ucitajIzBaze() {
         try {
-            izraz = veza.prepareStatement("select * from autor");
+            izraz = veza.prepareStatement("select * from penjac");
             ResultSet rs = izraz.executeQuery();
 
-            List<Autor> lista = new ArrayList<>();
-            Autor a;
+            List<Penjac> lista = new ArrayList<>();
+            Penjac p;
             while (rs.next()) {
-                a = new Autor();
-                a.setSifra(rs.getInt("sifra"));
-                a.setIme(rs.getString("ime"));
-                a.setPrezime(rs.getString("prezime"));
+                p = new Penjac();
+                p.setSifra(rs.getInt("sifra"));
+                p.setIme(rs.getString("ime"));
+                p.setPrezime(rs.getString("prezime"));
+                p.setRezultat(rs.getString("rezultat"));
 
-                lista.add(a);
+                lista.add(p);
             }
             rs.close();
             izraz.close();
 
-            Collections.sort(lista, new Comparator<Autor>() {
+            Collections.sort(lista, new Comparator<Penjac>() {
                 Collator col = Collator.getInstance(new Locale("hr", "HR"));
 
-                public int compare(Autor a1, Autor a2) {
-                    return col.compare(a1.getPrezime(), a2.getPrezime());
+                public int compare(Penjac p1, Penjac p2) {
+                    return col.compare(p1.getPrezime(), p2.getPrezime());
                 }
             });
-            DefaultListModel<Autor> m = new DefaultListModel<>();
+            DefaultListModel<Penjac> m = new DefaultListModel<>();
 
-            lista.forEach((autor) -> m.addElement(autor));
-            lstAutori.setModel(m);
-
+            lista.forEach((penjac) -> m.addElement(penjac));
+            lstPenjaci.setModel(m);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

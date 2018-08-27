@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.ljetnizadatak;
+package kovacevic.view;
 
+import kovacevic.view.Autori;
+import kovacevic.view.Penjaci;
+import kovacevic.view.Penjalista;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.IOException;
@@ -13,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import kovacevic.ljetnizadatak.Slika;
 
 /**
  *
