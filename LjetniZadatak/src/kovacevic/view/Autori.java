@@ -5,27 +5,18 @@
  */
 package kovacevic.view;
 
-import com.mysql.cj.util.StringUtils;
 import java.awt.Color;
 import java.awt.Component;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Locale;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import kovacevic.controller.ObradaAutor;
 import kovacevic.model.Autor;
-import kovacevic.ljetnizadatak.NamedParameterStatement;
 
 /**
  *
@@ -33,27 +24,21 @@ import kovacevic.ljetnizadatak.NamedParameterStatement;
  */
 public class Autori extends javax.swing.JFrame {
 
-    private Connection veza;
-    private PreparedStatement izraz;
+    final private ObradaAutor obrada;
+    private Autor autor;
+    final private DecimalFormat df;
 
     public Autori() {
         initComponents();
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlPodaci.setBackground(Color.decode("#082F4E"));
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        obrada = new ObradaAutor();
+        ucitajIzBaze();
 
-        try {
-            veza = DriverManager.getConnection("jdbc:mysql://localhost/penjalista?"
-                    + "user=edunova&password=edunova&serverTimezone=CET&useUnicode=true&characterEncoding=utf-8");
-            ucitajIzBaze();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("hr", "HR"));
+        df = (DecimalFormat) nf;
+        df.applyPattern("###,##0.00");
     }
 
     /**
@@ -214,95 +199,48 @@ public class Autori extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-        try {
-                      
-             
-        izraz = veza.prepareStatement("insert into autor (ime,prezime)" + "value (?,?)");
 
-            
-            izraz.setString(1, txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
-            izraz.setString(2, txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
-            
-            if (!txtIme.getText().matches("[a-zA-Z_]+") || !txtPrezime.getText().matches("[a-zA-Z_]+")) {
-                JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
-                return;
-}
+        autor = new Autor();
 
-            if(izraz.executeUpdate()!=0){
-                ucitajIzBaze();
-                ocistiPolja();
-                
-            }
-            
-           
-            
-            izraz.close();
-
-        } catch(StringIndexOutOfBoundsException str){
-            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci.");
+        if (!popuniSvojstva()) {
+            return;
         }
-                catch (SQLException ex) {
-            ex.printStackTrace();
+        if (obrada.dodajNovi(autor)) {
+            ucitajIzBaze();
         }
 
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
-        Autor a = lstAutori.getSelectedValue();
-        if (a == null) {
+        autor = lstAutori.getSelectedValue();
+        if (autor == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi autora.");
             return;
         }
-        
-        try {
-
-            NamedParameterStatement izraz = new NamedParameterStatement(veza, "update autor set ime=:ime, "
-                    + " prezime=:prezime "
-                    + " where sifra=:sifra");
-
-            izraz.setString("ime", txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
-            izraz.setString("prezime", txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
-
-            izraz.setInt("sifra", a.getSifra());
-             if(!txtIme.getText().matches("[a-zA-Z]+") || !txtPrezime.getText().matches("[a-zA-Z]+")){
-                JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
-                return;
-            }
-            if (izraz.izvedi() != 0)  {
-
-                ocistiPolja();
-                ucitajIzBaze();
-            }
-        } catch(StringIndexOutOfBoundsException str){
-            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (!popuniSvojstva()) {
+            return;
         }
+
+        if (obrada.promjeniPostojeci(autor)) {
+            ucitajIzBaze();
+        }
+
+
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        Autor a = lstAutori.getSelectedValue();
-        if (a == null) {
+        autor = lstAutori.getSelectedValue();
+        if (autor == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi autora.");
             return;
         }
 
         try {
-            izraz = veza.prepareStatement("delete from autor where sifra=?");
-            izraz.setInt(1, a.getSifra());
-
-            if (izraz.executeUpdate() == 0) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije obrisan nijedan red. ");
-            } else {
+            if (obrada.obrisiPostojeci(autor)) {
                 ucitajIzBaze();
-                ocistiPolja();
             }
-            izraz.close();
-
-        } catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(getRootPane(), "Nemoguće obrisati.");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(getRootPane(), "Autora nije moguće obrisati " + e.getMessage());
         }
     }//GEN-LAST:event_btnObrisiActionPerformed
 
@@ -322,7 +260,7 @@ public class Autori extends javax.swing.JFrame {
     }//GEN-LAST:event_lstAutoriValueChanged
 
     private void btnDodajMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseEntered
-         btnDodaj.setBackground(Color.LIGHT_GRAY);
+        btnDodaj.setBackground(Color.LIGHT_GRAY);
     }//GEN-LAST:event_btnDodajMouseEntered
 
     private void btnDodajMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDodajMouseExited
@@ -370,39 +308,23 @@ public class Autori extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrezime;
     // End of variables declaration//GEN-END:variables
  private void ucitajIzBaze() {
-        try {
-            izraz = veza.prepareStatement("select * from autor");
-            ResultSet rs = izraz.executeQuery();
+        DefaultListModel<Autor> m = new DefaultListModel<>();
+        obrada.getAutori().forEach((s) -> {
+            m.addElement(s);
+        });
+        lstAutori.setModel(m);
 
-            List<Autor> lista = new ArrayList<>();
-            Autor a;
-            while (rs.next()) {
-                a = new Autor();
-                a.setSifra(rs.getInt("sifra"));
-                a.setIme(rs.getString("ime"));
-                a.setPrezime(rs.getString("prezime"));
+    }
 
-                lista.add(a);
-            }
-            rs.close();
-            izraz.close();
-
-            Collections.sort(lista, new Comparator<Autor>() {
-                Collator col = Collator.getInstance(new Locale("hr", "HR"));
-
-                public int compare(Autor a1, Autor a2) {
-                    return col.compare(a1.getPrezime(), a2.getPrezime());
-                }
-            });
-            DefaultListModel<Autor> m = new DefaultListModel<>();
-
-            lista.forEach((autor) -> m.addElement(autor));
-            lstAutori.setModel(m);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    private boolean popuniSvojstva() {
+        autor.setIme(txtIme.getText().substring(0, 1).toUpperCase() + txtIme.getText().substring(1).toLowerCase());
+        autor.setPrezime(txtPrezime.getText().substring(0, 1).toUpperCase() + txtPrezime.getText().substring(1).toLowerCase());
+        if (!txtIme.getText().matches("[a-zA-Z]+") || !txtPrezime.getText().matches("[a-zA-Z]+")) {
+            JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
+            return false;
         }
 
+        return true;
     }
 
 }
