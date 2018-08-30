@@ -164,7 +164,7 @@ public class Izbornik extends javax.swing.JFrame {
     private void btnGitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGitActionPerformed
 
         try {
-            Desktop.getDesktop().browse(new URL("https://github.com/jkovacevic992/Ljetni-zadatak/tree/master/LjetniZadatak/src/kovacevic/ljetnizadatak").toURI());
+            Desktop.getDesktop().browse(new URL("https://github.com/jkovacevic992/Ljetni-zadatak/tree/master/LjetniZadatak").toURI());
         } catch (URISyntaxException | IOException ex) {
             ex.printStackTrace();
         }
