@@ -338,7 +338,7 @@ public class Penjalista extends javax.swing.JFrame {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(getRootPane(), "Geografska širina ili dužina nije unesena.");
         }
-        if (!txtNaziv.getText().matches("[a-zA-Z]+")) {
+        if (!txtNaziv.getText().chars().allMatch(Character::isLetter)) {
             JOptionPane.showMessageDialog(getRootPane(), "Naziv sadržavati samo slova.");
             return false;
         }

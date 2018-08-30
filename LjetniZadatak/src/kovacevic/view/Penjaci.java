@@ -344,7 +344,7 @@ private void ucitajIzBaze() {
             return false;
         }
 
-        if (!txtIme.getText().matches("[a-zA-Z]+") || !txtPrezime.getText().matches("[a-zA-Z]+")) {
+          if(!txtIme.getText().chars().allMatch(Character::isLetter) || !txtPrezime.getText().chars().allMatch(Character::isLetter)){
             JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
             return false;
         }
