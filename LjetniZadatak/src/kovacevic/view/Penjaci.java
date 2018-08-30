@@ -5,7 +5,6 @@
  */
 package kovacevic.view;
 
-import com.mysql.cj.util.StringUtils;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.SQLException;
@@ -350,10 +349,6 @@ private void ucitajIzBaze() {
             return false;
         }
 
-        if (StringUtils.isNullOrEmpty(txtRezultat.getText())) {
-            JOptionPane.showMessageDialog(getRootPane(), "Nije unesen rezultat.");
-            return false;
-        }
         return true;
     }
 

@@ -5,29 +5,17 @@
  */
 package kovacevic.view;
 
-import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
-import com.mysql.cj.util.StringUtils;
 import java.awt.Color;
 import java.awt.Component;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import kovacevic.ljetnizadatak.NamedParameterStatement;
+import kovacevic.controller.ObradaPenjaliste;
 import kovacevic.model.Penjaliste;
 
 /**
@@ -36,27 +24,20 @@ import kovacevic.model.Penjaliste;
  */
 public class Penjalista extends javax.swing.JFrame {
 
-    private Connection veza;
-    private PreparedStatement izraz;
+    final private ObradaPenjaliste obrada;
+    private Penjaliste penjaliste;
+    final private DecimalFormat df;
 
     public Penjalista() {
         initComponents();
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlPodaci.setBackground(Color.decode("#082F4E"));
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        try {
-            veza = DriverManager.getConnection("jdbc:mysql://localhost/penjalista?"
-                    + "user=edunova&password=edunova&serverTimezone=CET&useUnicode=true&characterEncoding=utf-8");
-            ucitajIzBaze();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        obrada = new ObradaPenjaliste();
+        ucitajIzBaze();
+        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("hr", "HR"));
+        df = (DecimalFormat) nf;
+        df.applyPattern("###,##0.00");
 
     }
 
@@ -240,104 +221,49 @@ public class Penjalista extends javax.swing.JFrame {
     }//GEN-LAST:event_lstPenjalistaValueChanged
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-        try {
-            izraz = veza.prepareStatement("insert into penjaliste (naziv,lat,lon)" + "value (?,?,?)");
-            izraz.setString(1, txtNaziv.getText().substring(0, 1).toUpperCase()+txtNaziv.getText().substring(1).toLowerCase());
-            izraz.setString(2, txtLat.getText());
-            izraz.setString(3, txtLon.getText());
-            if (!txtNaziv.getText().matches("[a-zA-Z_]+")) {
-                JOptionPane.showMessageDialog(getRootPane(), "Naziv može sadržavati samo slova.");
-                return;
-}
+        penjaliste = new Penjaliste();
 
-            if (StringUtils.isNullOrEmpty(txtLat.getText())) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije unesena geografska širina.");
-                return;
-            } else if (StringUtils.isNullOrEmpty(txtLon.getText())) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije unesena geografska dužina.");
-                return;
-            }
-            if (izraz.executeUpdate() != 0) {
-                ucitajIzBaze();
-                ocistiPolja();
-
-            }
-            izraz.close();
-
-        } catch(StringIndexOutOfBoundsException str){
-            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
-        } catch (MysqlDataTruncation e) {
-            JOptionPane.showMessageDialog(getRootPane(), "Geografska širina i/ili dužina pogrešno unesena.");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        if (!popuniSvojstva()) {
+            return;
         }
+        if (obrada.dodajNovi(penjaliste)) {
+            ucitajIzBaze();
+        }
+
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
-        Penjaliste p = lstPenjalista.getSelectedValue();
-        if (p == null) {
+        penjaliste = lstPenjalista.getSelectedValue();
+        if (penjaliste == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjalište.");
             return;
         }
-        try {
 
-            NamedParameterStatement izraz = new NamedParameterStatement(veza, "update penjaliste set naziv=:naziv, "
-                    + " lat=:lat, lon=:lon "
-                    + " where sifra=:sifra");
-
-            izraz.setString("naziv", txtNaziv.getText().substring(0, 1).toUpperCase()+txtNaziv.getText().substring(1).toLowerCase());
-            izraz.setString("lat", txtLat.getText());
-            izraz.setString("lon", txtLon.getText());
-            izraz.setInt("sifra", p.getSifra());
-            if (!txtNaziv.getText().matches("[a-zA-Z_]+")) {
-                JOptionPane.showMessageDialog(getRootPane(), "Naziv može sadržavati samo slova.");
-                return;
-}
-             if (StringUtils.isNullOrEmpty(txtLat.getText())) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije unesena geografska širina.");
-                return;
-            } else if (StringUtils.isNullOrEmpty(txtLon.getText())) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije unesena geografska dužina.");
-                return;
-            }
-            if (izraz.izvedi() != 0) {
-                ucitajIzBaze();
-                ocistiPolja();
-
-            }
-        } catch(StringIndexOutOfBoundsException str){
-            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
-        } catch (MysqlDataTruncation e) {
-            JOptionPane.showMessageDialog(getRootPane(), "Geografska širina i/ili dužina pogrešno unesena.");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (!popuniSvojstva()) {
+            return;
         }
+
+        if (obrada.promjeniPostojeci(penjaliste)) {
+            ucitajIzBaze();
+        }
+
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        Penjaliste p = lstPenjalista.getSelectedValue();
-        if (p == null) {
+        penjaliste = lstPenjalista.getSelectedValue();
+        if (penjaliste == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjalište.");
             return;
         }
 
         try {
-            izraz = veza.prepareStatement("delete from penjaliste where sifra=?");
-            izraz.setInt(1, p.getSifra());
-
-            if (izraz.executeUpdate() == 0) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije obrisan nijedan red. ");
-            } else {
+            if (obrada.obrisiPostojeci(penjaliste)) {
                 ucitajIzBaze();
-                ocistiPolja();
             }
-            izraz.close();
-
-        } catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(getRootPane(), "Nemoguće obrisati.");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(getRootPane(), "Penjalište nije moguće obrisati " + e.getMessage());
         }
+
 
     }//GEN-LAST:event_btnObrisiActionPerformed
 
@@ -393,40 +319,31 @@ public class Penjalista extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void ucitajIzBaze() {
+        DefaultListModel<Penjaliste> m = new DefaultListModel<>();
+        obrada.getPenjalista().forEach((s) -> {
+            m.addElement(s);
+        });
+        lstPenjalista.setModel(m);
+
+    }
+
+    private boolean popuniSvojstva() {
         try {
-            izraz = veza.prepareStatement("select * from penjaliste");
-            ResultSet rs = izraz.executeQuery();
-
-            List<Penjaliste> lista = new ArrayList<>();
-            Penjaliste p;
-            while (rs.next()) {
-                p = new Penjaliste();
-                p.setSifra(rs.getInt("sifra"));
-                p.setNaziv(rs.getString("naziv"));
-                p.setLon(rs.getDouble("lon"));
-                p.setLat(rs.getDouble("lat"));
-
-                lista.add(p);
-            }
-            rs.close();
-            izraz.close();
-
-            Collections.sort(lista, new Comparator<Penjaliste>() {
-                Collator col = Collator.getInstance(new Locale("hr", "HR"));
-
-                public int compare(Penjaliste p1, Penjaliste p2) {
-                    return col.compare(p1.getNaziv(), p2.getNaziv());
-                }
-            });
-            DefaultListModel<Penjaliste> m = new DefaultListModel<>();
-
-            lista.forEach((penjaliste) -> m.addElement(penjaliste));
-            lstPenjalista.setModel(m);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            penjaliste.setNaziv(txtNaziv.getText().substring(0, 1).toUpperCase() + txtNaziv.getText().substring(1).toLowerCase());
+            penjaliste.setLat(Double.parseDouble(txtLat.getText()));
+            penjaliste.setLon(Double.parseDouble(txtLon.getText()));
+        } catch (StringIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
+            return false;
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(getRootPane(), "Geografska širina ili dužina nije unesena.");
+        }
+        if (!txtNaziv.getText().matches("[a-zA-Z]+")) {
+            JOptionPane.showMessageDialog(getRootPane(), "Naziv sadržavati samo slova.");
+            return false;
         }
 
+        return true;
     }
 
 }
