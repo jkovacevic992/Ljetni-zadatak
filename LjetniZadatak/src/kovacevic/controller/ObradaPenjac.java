@@ -12,19 +12,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import kovacevic.model.Autor;
+import kovacevic.model.Penjac;
 
 /**
  *
  * @author Josip
  */
-public class ObradaAutor {
+public class ObradaPenjac {
 
     Connection veza;
     PreparedStatement izraz;
     ResultSet rs;
 
-    public ObradaAutor() {
+    public ObradaPenjac() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         } catch (Exception ex) {
@@ -40,19 +40,19 @@ public class ObradaAutor {
         }
     }
 
-    public List<Autor> getAutori() {
+    public List<Penjac> getPenjaci() {
         try {
-            izraz = veza.prepareStatement("select * from autor");
+            izraz = veza.prepareStatement("select * from penjac");
             ResultSet rs = izraz.executeQuery();
-            List<Autor> lista = new ArrayList<>();
-            Autor a;
+            List<Penjac> lista = new ArrayList<>();
+            Penjac p;
             while (rs.next()) {
-                a = new Autor();
-                a.setSifra(rs.getInt("sifra"));
-                a.setIme(rs.getString("ime"));
-                a.setPrezime(rs.getString("prezime"));
-
-                lista.add(a);
+                p = new Penjac();
+                p.setSifra(rs.getInt("sifra"));
+                p.setIme(rs.getString("ime"));
+                p.setPrezime(rs.getString("prezime"));
+                p.setRezultat(rs.getString("rezultat"));
+                lista.add(p);
             }
             rs.close();
             izraz.close();
@@ -63,10 +63,10 @@ public class ObradaAutor {
         return null;
     }
 
-    public boolean dodajNovi(Autor a) {
+    public boolean dodajNovi(Penjac p) {
         try {
-            izraz = veza.prepareStatement("insert into autor (ime,prezime)" + "value (?,?)");
-            postaviParametre(a);
+            izraz = veza.prepareStatement("insert into penjac (ime,prezime,rezultat)" + "value (?,?,?)");
+            postaviParametre(p);
             int brojPromjenaUBazi = izraz.executeUpdate();
             izraz.close();
             return brojPromjenaUBazi == 1;
@@ -76,19 +76,20 @@ public class ObradaAutor {
         return false;
     }
 
-    private void postaviParametre(Autor a) throws SQLException {
-        izraz.setString(1, a.getIme());
-        izraz.setString(2, a.getPrezime());
-
+    private void postaviParametre(Penjac p) throws SQLException {
+        izraz.setString(1, p.getIme());
+        izraz.setString(2, p.getPrezime());
+        izraz.setString(3, p.getRezultat());
     }
 
-    public boolean promjeniPostojeci(Autor a) {
+    public boolean promjeniPostojeci(Penjac p) {
         try {
-          
-            izraz = veza.prepareStatement("update autor set ime=?, prezime=? "
-                                        + " where sifra=?");
-            postaviParametre(a);
-              izraz.setInt(3, a.getSifra());
+
+            izraz = veza.prepareStatement("update penjac set ime=?, "
+                    + " prezime=?, rezultat=? "
+                    + " where sifra=?");
+            postaviParametre(p);
+            izraz.setInt(4, p.getSifra());
             int brojPromjenaUBazi = izraz.executeUpdate();
             izraz.close();
             return brojPromjenaUBazi == 1;
@@ -98,9 +99,9 @@ public class ObradaAutor {
         return false;
     }
 
-    public boolean obrisiPostojeci(Autor a) throws SQLException {
-        izraz = veza.prepareStatement("delete from autor " + " where sifra=?");
-        izraz.setInt(1, a.getSifra());
+    public boolean obrisiPostojeci(Penjac p) throws SQLException {
+        izraz = veza.prepareStatement("delete from penjac where sifra=?");
+        izraz.setInt(1, p.getSifra());
         int brojPromjenaUBazi = izraz.executeUpdate();
         izraz.close();
         return brojPromjenaUBazi == 1;

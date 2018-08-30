@@ -5,18 +5,11 @@
  */
 package kovacevic.view;
 
-import kovacevic.view.Autori;
-import kovacevic.view.Penjaci;
-import kovacevic.view.Penjalista;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import kovacevic.ljetnizadatak.Slika;
 
 /**
  *
@@ -95,7 +88,7 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
-        lblSlika.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kovacevic/ljetnizadatak/climber1.png"))); // NOI18N
+        lblSlika.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kovacevic/view/climber1.png"))); // NOI18N
 
         btnZatvori.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnZatvori.setText("Zatvori");
@@ -140,7 +133,7 @@ public class Izbornik extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlIzbornikLayout.createSequentialGroup()
                 .addComponent(lblSlika)
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

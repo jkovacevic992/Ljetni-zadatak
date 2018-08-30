@@ -8,27 +8,15 @@ package kovacevic.view;
 import com.mysql.cj.util.StringUtils;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import kovacevic.ljetnizadatak.NamedParameterStatement;
+import kovacevic.controller.ObradaPenjac;
 import kovacevic.model.Penjac;
 
 /**
@@ -37,27 +25,20 @@ import kovacevic.model.Penjac;
  */
 public class Penjaci extends javax.swing.JFrame {
 
-    private Connection veza;
-    private PreparedStatement izraz;
+    final private ObradaPenjac obrada;
+    private Penjac penjac;
+    final private DecimalFormat df;
 
     public Penjaci() {
         initComponents();
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlPodaci.setBackground(Color.decode("#082F4E"));
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        try {
-            veza = DriverManager.getConnection("jdbc:mysql://localhost/penjalista?"
-                    + "user=edunova&password=edunova&serverTimezone=CET&useUnicode=true&characterEncoding=utf-8");
-            ucitajIzBaze();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        obrada = new ObradaPenjac();
+        ucitajIzBaze();
+        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("hr", "HR"));
+        df = (DecimalFormat) nf;
+        df.applyPattern("###,##0.00");
     }
 
     /**
@@ -246,92 +227,49 @@ public class Penjaci extends javax.swing.JFrame {
     }//GEN-LAST:event_lstPenjaciValueChanged
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-        try {
-            izraz = veza.prepareStatement("insert into penjac (ime,prezime,rezultat)" + "value (?,?,?)");
-            izraz.setString(1, txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
-            izraz.setString(2, txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
-            izraz.setString(3, txtRezultat.getText());
+        penjac = new Penjac();
 
-            
-             if(StringUtils.isNullOrEmpty(txtRezultat.getText())) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije unesen rezultat.");
-                return;}
-             if (!txtIme.getText().matches("[a-zA-Z_]+") || !txtPrezime.getText().matches("[a-zA-Z_]+")) {
-                JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
-                return;
-}
-            if (izraz.executeUpdate()!= 0) {
-                ucitajIzBaze();
-                ocistiPolja();
-                
-            }
-            izraz.close();
-
-        } catch(StringIndexOutOfBoundsException str){
-            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        if (!popuniSvojstva()) {
+            return;
         }
+        if (obrada.dodajNovi(penjac)) {
+            ucitajIzBaze();
+        }
+
 
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
 
-        Penjac p = lstPenjaci.getSelectedValue();
-        if (p == null) {
+        penjac = lstPenjaci.getSelectedValue();
+
+        if (penjac == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjača.");
             return;
         }
-        try {
-
-            NamedParameterStatement izraz = new NamedParameterStatement(veza, "update penjac set ime=:ime, "
-                    + " prezime=:prezime, rezultat=:rezultat "
-                    + " where sifra=:sifra");
-
-            izraz.setString("ime", txtIme.getText().substring(0, 1).toUpperCase()+txtIme.getText().substring(1).toLowerCase());
-            izraz.setString("prezime", txtPrezime.getText().substring(0, 1).toUpperCase()+txtPrezime.getText().substring(1).toLowerCase());
-            izraz.setString("rezultat", txtRezultat.getText());
-            izraz.setInt("sifra", p.getSifra());
-             if (!txtIme.getText().matches("[a-zA-Z_]+") || !txtPrezime.getText().matches("[a-zA-Z_]+")) {
-                JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
-                return;
-}
-            if (izraz.izvedi() != 0)  {
-
-                ocistiPolja();
-                ucitajIzBaze();
-            }
-        }catch(StringIndexOutOfBoundsException str){
-            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
-        } 
-        catch (Exception ex) {
-            ex.printStackTrace();
+        if (!popuniSvojstva()) {
+            return;
         }
+
+        if (obrada.promjeniPostojeci(penjac)) {
+            ucitajIzBaze();
+        }
+
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        Penjac p = lstPenjaci.getSelectedValue();
-        if (p == null) {
+        penjac = lstPenjaci.getSelectedValue();
+        if (penjac == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjača.");
             return;
         }
 
         try {
-            izraz = veza.prepareStatement("delete from penjac where sifra=?");
-            izraz.setInt(1, p.getSifra());
-
-            if (izraz.executeUpdate() == 0) {
-                JOptionPane.showMessageDialog(getRootPane(), "Nije obrisan nijedan red. ");
-            } else {
+            if (obrada.obrisiPostojeci(penjac)) {
                 ucitajIzBaze();
-                ocistiPolja();
             }
-            izraz.close();
-
-        } catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(getRootPane(), "Nemoguće obrisati.");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(getRootPane(), "Penjača nije moguće obrisati " + e.getMessage());
         }
 
 
@@ -360,7 +298,7 @@ public class Penjaci extends javax.swing.JFrame {
     private void btnObrisiMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnObrisiMouseExited
         btnObrisi.setBackground(new JButton().getBackground());
     }//GEN-LAST:event_btnObrisiMouseExited
-   
+
     /**
      * @param args the command line arguments
      */
@@ -389,39 +327,34 @@ public class Penjaci extends javax.swing.JFrame {
     private javax.swing.JTextField txtRezultat;
     // End of variables declaration//GEN-END:variables
 private void ucitajIzBaze() {
+        DefaultListModel<Penjac> m = new DefaultListModel<>();
+        obrada.getPenjaci().forEach((s) -> {
+            m.addElement(s);
+        });
+        lstPenjaci.setModel(m);
+
+    }
+
+    private boolean popuniSvojstva() {
         try {
-            izraz = veza.prepareStatement("select * from penjac");
-            ResultSet rs = izraz.executeQuery();
-
-            List<Penjac> lista = new ArrayList<>();
-            Penjac p;
-            while (rs.next()) {
-                p = new Penjac();
-                p.setSifra(rs.getInt("sifra"));
-                p.setIme(rs.getString("ime"));
-                p.setPrezime(rs.getString("prezime"));
-                p.setRezultat(rs.getString("rezultat"));
-
-                lista.add(p);
-            }
-            rs.close();
-            izraz.close();
-
-            Collections.sort(lista, new Comparator<Penjac>() {
-                Collator col = Collator.getInstance(new Locale("hr", "HR"));
-
-                public int compare(Penjac p1, Penjac p2) {
-                    return col.compare(p1.getPrezime(), p2.getPrezime());
-                }
-            });
-            DefaultListModel<Penjac> m = new DefaultListModel<>();
-
-            lista.forEach((penjac) -> m.addElement(penjac));
-            lstPenjaci.setModel(m);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            penjac.setIme(txtIme.getText().substring(0, 1).toUpperCase() + txtIme.getText().substring(1).toLowerCase());
+            penjac.setPrezime(txtPrezime.getText().substring(0, 1).toUpperCase() + txtPrezime.getText().substring(1).toLowerCase());
+            penjac.setRezultat(txtRezultat.getText().substring(0, 1).toUpperCase() + txtRezultat.getText().substring(1).toLowerCase());
+        } catch (StringIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
+            return false;
         }
 
+        if (!txtIme.getText().matches("[a-zA-Z]+") || !txtPrezime.getText().matches("[a-zA-Z]+")) {
+            JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
+            return false;
+        }
+
+        if (StringUtils.isNullOrEmpty(txtRezultat.getText())) {
+            JOptionPane.showMessageDialog(getRootPane(), "Nije unesen rezultat.");
+            return false;
+        }
+        return true;
     }
 
 }

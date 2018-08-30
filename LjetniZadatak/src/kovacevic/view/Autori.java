@@ -317,12 +317,19 @@ public class Autori extends javax.swing.JFrame {
     }
 
     private boolean popuniSvojstva() {
-        autor.setIme(txtIme.getText().substring(0, 1).toUpperCase() + txtIme.getText().substring(1).toLowerCase());
+        try {
+            autor.setIme(txtIme.getText().substring(0, 1).toUpperCase() + txtIme.getText().substring(1).toLowerCase());
         autor.setPrezime(txtPrezime.getText().substring(0, 1).toUpperCase() + txtPrezime.getText().substring(1).toLowerCase());
         if (!txtIme.getText().matches("[a-zA-Z]+") || !txtPrezime.getText().matches("[a-zA-Z]+")) {
             JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
             return false;
         }
+        } catch (StringIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
+            return false;
+        }
+
+       
 
         return true;
     }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.ljetnizadatak;
+package kovacevic.view;
 
 /**
  *
@@ -32,7 +32,7 @@ public class Slika extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
 
-        lblSlika.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kovacevic/ljetnizadatak/penjalista.png"))); // NOI18N
+        lblSlika.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kovacevic/view/penjalista.png"))); // NOI18N
         getContentPane().add(lblSlika);
 
         pack();
