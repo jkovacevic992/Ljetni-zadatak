@@ -64,6 +64,7 @@ public class Penjalista extends javax.swing.JFrame {
         lstPenjalista = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Penjališta");
 
         lblNaziv.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         lblNaziv.setForeground(new java.awt.Color(255, 255, 255));

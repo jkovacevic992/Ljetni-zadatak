@@ -30,6 +30,7 @@ public class Slika extends javax.swing.JFrame {
         lblSlika = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("ERA");
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         lblSlika.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kovacevic/ljetnizadatak/view/penjalista.png"))); // NOI18N

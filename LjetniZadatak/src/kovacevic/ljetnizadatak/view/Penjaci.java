@@ -63,6 +63,7 @@ public class Penjaci extends javax.swing.JFrame {
         btnObrisi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Penjači");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         lstPenjaci.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
