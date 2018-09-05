@@ -5,24 +5,23 @@
  */
 package kovacevic.model;
 
+import java.io.Serializable;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
 /**
  *
  * @author Josip
  */
-public class Penjac {
+@Entity
+public class Penjac extends Entitet implements Serializable{
 
-    private int sifra;
+   
     private String ime;
     private String prezime;
     private String rezultat;
 
-    public int getSifra() {
-        return sifra;
-    }
-
-    public void setSifra(int sifra) {
-        this.sifra = sifra;
-    }
+ 
 
     public String getIme() {
         return ime;

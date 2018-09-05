@@ -5,24 +5,21 @@
  */
 package kovacevic.model;
 
+import java.io.Serializable;
+import org.hibernate.annotations.Entity;
+
 /**
  *
  * @author Josip
  */
-public class Autor {
+@Entity
+public class Autor extends Entitet implements Serializable{
 
-    private int sifra;
+
     private String ime;
     private String prezime;
 
-    public int getSifra() {
-        return sifra;
-    }
-
-    public void setSifra(int sifra) {
-        this.sifra = sifra;
-    }
-
+ 
     public String getIme() {
         return ime;
     }

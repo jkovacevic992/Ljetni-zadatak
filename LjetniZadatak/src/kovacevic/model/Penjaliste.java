@@ -5,24 +5,22 @@
  */
 package kovacevic.model;
 
+import java.io.Serializable;
+import org.hibernate.annotations.Entity;
+
 /**
  *
  * @author Josip
  */
-public class Penjaliste {
+@Entity
+public class Penjaliste extends Entitet implements Serializable{
 
-    private int sifra;
+
     private String naziv;
     private Double lat;
     private Double lon;
 
-    public int getSifra() {
-        return sifra;
-    }
-
-    public void setSifra(int sifra) {
-        this.sifra = sifra;
-    }
+   
 
     public String getNaziv() {
         return naziv;

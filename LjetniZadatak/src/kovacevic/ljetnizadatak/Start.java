@@ -5,6 +5,10 @@
  */
 package kovacevic.ljetnizadatak;
 
+import kovacevic.controller.ObradaPenjac;
+import kovacevic.model.Penjac;
+import kovacevic.pomocno.HibernateUtil;
+import kovacevic.pomocno.MojException;
 import kovacevic.view.Izbornik;
 
 /**
@@ -17,6 +21,8 @@ public class Start {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        HibernateUtil.getSession();
+        
         Izbornik izbornik = new Izbornik();
         izbornik.setVisible(true);
     }

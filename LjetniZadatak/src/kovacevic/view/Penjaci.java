@@ -7,7 +7,6 @@ package kovacevic.view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -17,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import kovacevic.controller.ObradaPenjac;
 import kovacevic.model.Penjac;
+import kovacevic.pomocno.MojException;
 
 /**
  *
@@ -227,14 +227,16 @@ public class Penjaci extends javax.swing.JFrame {
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
         penjac = new Penjac();
+        penjac.setIme(txtIme.getText());
+        penjac.setPrezime(txtPrezime.getText());
+        penjac.setRezultat(txtRezultat.getText());
 
-        if (!popuniSvojstva()) {
-            return;
-        }
-        if (obrada.dodajNovi(penjac)) {
+        try {
+            obrada.dodaj(penjac);
             ucitajIzBaze();
+        } catch (MojException ex) {
+            ex.printStackTrace();
         }
-
 
     }//GEN-LAST:event_btnDodajActionPerformed
 
@@ -250,8 +252,11 @@ public class Penjaci extends javax.swing.JFrame {
             return;
         }
 
-        if (obrada.promjeniPostojeci(penjac)) {
+        try {
+            obrada.promjena(penjac);
             ucitajIzBaze();
+        } catch (MojException ex) {
+            ex.printStackTrace();
         }
 
     }//GEN-LAST:event_btnPromjenaActionPerformed
@@ -263,13 +268,8 @@ public class Penjaci extends javax.swing.JFrame {
             return;
         }
 
-        try {
-            if (obrada.obrisiPostojeci(penjac)) {
-                ucitajIzBaze();
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(getRootPane(), "Penjača nije moguće obrisati " + e.getMessage());
-        }
+       obrada.obrisi(penjac);
+       ucitajIzBaze();
 
 
     }//GEN-LAST:event_btnObrisiActionPerformed
@@ -327,7 +327,7 @@ public class Penjaci extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 private void ucitajIzBaze() {
         DefaultListModel<Penjac> m = new DefaultListModel<>();
-        obrada.getPenjaci().forEach((s) -> {
+        obrada.getEntiteti().forEach((s) -> {
             m.addElement(s);
         });
         lstPenjaci.setModel(m);
