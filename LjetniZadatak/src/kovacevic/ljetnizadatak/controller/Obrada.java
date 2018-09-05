@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.controller;
+package kovacevic.ljetnizadatak.controller;
 
-import kovacevic.model.Entitet;
-import kovacevic.pomocno.HibernateUtil;
+import kovacevic.ljetnizadatak.model.Entitet;
+import kovacevic.ljetnizadatak.pomocno.HibernateUtil;
 import org.hibernate.Session;
 
 /**

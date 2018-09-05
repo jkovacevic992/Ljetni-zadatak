@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.controller;
+package kovacevic.ljetnizadatak.controller;
 
 import java.util.List;
-import kovacevic.model.Penjac;
-import kovacevic.pomocno.MojException;
+import kovacevic.ljetnizadatak.model.Penjac;
+import kovacevic.ljetnizadatak.pomocno.MojException;
 
 /**
  *

@@ -1,4 +1,4 @@
-package kovacevic.pomocno;
+package kovacevic.ljetnizadatak.pomocno;
 
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;

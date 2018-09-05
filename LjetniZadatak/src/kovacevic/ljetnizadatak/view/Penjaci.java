@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.view;
+package kovacevic.ljetnizadatak.view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -15,30 +14,30 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import kovacevic.controller.ObradaPenjaliste;
-import kovacevic.model.Penjaliste;
+import kovacevic.ljetnizadatak.controller.ObradaPenjac;
+import kovacevic.ljetnizadatak.model.Penjac;
+import kovacevic.ljetnizadatak.pomocno.MojException;
 
 /**
  *
  * @author Josip
  */
-public class Penjalista extends javax.swing.JFrame {
+public class Penjaci extends javax.swing.JFrame {
 
-    final private ObradaPenjaliste obrada;
-    private Penjaliste penjaliste;
+    final private ObradaPenjac obrada;
+    private Penjac penjac;
     final private DecimalFormat df;
 
-    public Penjalista() {
+    public Penjaci() {
         initComponents();
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlPodaci.setBackground(Color.decode("#082F4E"));
 
-        obrada = new ObradaPenjaliste();
+        obrada = new ObradaPenjac();
         ucitajIzBaze();
         NumberFormat nf = NumberFormat.getNumberInstance(new Locale("hr", "HR"));
         df = (DecimalFormat) nf;
         df.applyPattern("###,##0.00");
-
     }
 
     /**
@@ -50,32 +49,41 @@ public class Penjalista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstPenjaci = new javax.swing.JList<>();
         pnlPodaci = new javax.swing.JPanel();
-        lblNaziv = new javax.swing.JLabel();
-        txtNaziv = new javax.swing.JTextField();
-        lblLon = new javax.swing.JLabel();
-        txtLon = new javax.swing.JTextField();
-        lblLat = new javax.swing.JLabel();
-        txtLat = new javax.swing.JTextField();
+        lblIme = new javax.swing.JLabel();
+        txtIme = new javax.swing.JTextField();
+        lblPrezime = new javax.swing.JLabel();
+        txtPrezime = new javax.swing.JTextField();
+        lblRezultat = new javax.swing.JLabel();
+        txtRezultat = new javax.swing.JTextField();
         btnDodaj = new javax.swing.JButton();
         btnPromjena = new javax.swing.JButton();
         btnObrisi = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstPenjalista = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        lblNaziv.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
-        lblNaziv.setForeground(new java.awt.Color(255, 255, 255));
-        lblNaziv.setText("Naziv");
+        lstPenjaci.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstPenjaci.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstPenjaciValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(lstPenjaci);
 
-        lblLon.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
-        lblLon.setForeground(new java.awt.Color(255, 255, 255));
-        lblLon.setText("Geografska dužina");
+        lblIme.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblIme.setForeground(new java.awt.Color(255, 255, 255));
+        lblIme.setText("Ime");
 
-        lblLat.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
-        lblLat.setForeground(new java.awt.Color(255, 255, 255));
-        lblLat.setText("Geograska širina");
+        lblPrezime.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblPrezime.setForeground(new java.awt.Color(255, 255, 255));
+        lblPrezime.setText("Prezime");
+
+        lblRezultat.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblRezultat.setForeground(new java.awt.Color(255, 255, 255));
+        lblRezultat.setText("Rezultat");
 
         btnDodaj.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnDodaj.setText("Dodaj");
@@ -131,51 +139,46 @@ public class Penjalista extends javax.swing.JFrame {
             pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPodaciLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblNaziv)
-                    .addComponent(lblLon)
-                    .addComponent(lblLat)
-                    .addComponent(txtLon)
-                    .addComponent(txtLat)
+                .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtRezultat)
+                    .addComponent(txtIme)
+                    .addComponent(txtPrezime)
                     .addGroup(pnlPodaciLayout.createSequentialGroup()
-                        .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtNaziv))
-                .addContainerGap(54, Short.MAX_VALUE))
+                        .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblIme)
+                            .addComponent(lblPrezime)
+                            .addComponent(lblRezultat)
+                            .addGroup(pnlPodaciLayout.createSequentialGroup()
+                                .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pnlPodaciLayout.setVerticalGroup(
             pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPodaciLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblNaziv)
+                .addComponent(lblIme)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtIme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblLon)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtLon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblPrezime)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblLat)
+                .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtLat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(lblRezultat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtRezultat, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDodaj)
                     .addComponent(btnPromjena)
                     .addComponent(btnObrisi))
-                .addGap(27, 27, 27))
+                .addContainerGap())
         );
-
-        lstPenjalista.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        lstPenjalista.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstPenjalistaValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(lstPenjalista);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -183,20 +186,20 @@ public class Penjalista extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -204,65 +207,69 @@ public class Penjalista extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lstPenjalistaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPenjalistaValueChanged
+    private void lstPenjaciValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPenjaciValueChanged
         if (evt.getValueIsAdjusting()) {
             return;
         }
 
-        Penjaliste p = lstPenjalista.getSelectedValue();
+        Penjac p = lstPenjaci.getSelectedValue();
         if (p == null) {
             return;
         }
         ocistiPolja();
 
-        txtNaziv.setText(p.getNaziv());
-        txtLat.setText(String.valueOf(p.getLat()));
-        txtLon.setText(String.valueOf(p.getLon()));
-    }//GEN-LAST:event_lstPenjalistaValueChanged
+        txtIme.setText(p.getIme());
+        txtPrezime.setText(p.getPrezime());
+        txtRezultat.setText(p.getRezultat());
+
+
+    }//GEN-LAST:event_lstPenjaciValueChanged
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-        penjaliste = new Penjaliste();
+        penjac = new Penjac();
+        penjac.setIme(txtIme.getText());
+        penjac.setPrezime(txtPrezime.getText());
+        penjac.setRezultat(txtRezultat.getText());
 
-        if (!popuniSvojstva()) {
-            return;
-        }
-        if (obrada.dodajNovi(penjaliste)) {
+        try {
+            obrada.dodaj(penjac);
             ucitajIzBaze();
+        } catch (MojException ex) {
+            ex.printStackTrace();
         }
 
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
-        penjaliste = lstPenjalista.getSelectedValue();
-        if (penjaliste == null) {
-            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjalište.");
+
+        penjac = lstPenjaci.getSelectedValue();
+
+        if (penjac == null) {
+            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjača.");
             return;
         }
-
         if (!popuniSvojstva()) {
             return;
         }
 
-        if (obrada.promjeniPostojeci(penjaliste)) {
+        try {
+            obrada.promjena(penjac);
             ucitajIzBaze();
+        } catch (MojException ex) {
+            ex.printStackTrace();
         }
 
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        penjaliste = lstPenjalista.getSelectedValue();
-        if (penjaliste == null) {
-            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjalište.");
+        penjac = lstPenjaci.getSelectedValue();
+        if (penjac == null) {
+            JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjača.");
             return;
         }
 
-        try {
-            if (obrada.obrisiPostojeci(penjaliste)) {
-                ucitajIzBaze();
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(getRootPane(), "Penjalište nije moguće obrisati " + e.getMessage());
-        }
+       obrada.obrisi(penjac);
+       ucitajIzBaze();
 
 
     }//GEN-LAST:event_btnObrisiActionPerformed
@@ -303,43 +310,42 @@ public class Penjalista extends javax.swing.JFrame {
             }
         }
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjena;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblLat;
-    private javax.swing.JLabel lblLon;
-    private javax.swing.JLabel lblNaziv;
-    private javax.swing.JList<Penjaliste> lstPenjalista;
+    private javax.swing.JLabel lblIme;
+    private javax.swing.JLabel lblPrezime;
+    private javax.swing.JLabel lblRezultat;
+    private javax.swing.JList<Penjac> lstPenjaci;
     private javax.swing.JPanel pnlPodaci;
-    private javax.swing.JTextField txtLat;
-    private javax.swing.JTextField txtLon;
-    private javax.swing.JTextField txtNaziv;
+    private javax.swing.JTextField txtIme;
+    private javax.swing.JTextField txtPrezime;
+    private javax.swing.JTextField txtRezultat;
     // End of variables declaration//GEN-END:variables
-
-    private void ucitajIzBaze() {
-        DefaultListModel<Penjaliste> m = new DefaultListModel<>();
-        obrada.getPenjalista().forEach((s) -> {
+private void ucitajIzBaze() {
+        DefaultListModel<Penjac> m = new DefaultListModel<>();
+        obrada.getEntiteti().forEach((s) -> {
             m.addElement(s);
         });
-        lstPenjalista.setModel(m);
+        lstPenjaci.setModel(m);
 
     }
 
     private boolean popuniSvojstva() {
         try {
-            penjaliste.setNaziv(txtNaziv.getText().substring(0, 1).toUpperCase() + txtNaziv.getText().substring(1).toLowerCase());
-            penjaliste.setLat(Double.parseDouble(txtLat.getText()));
-            penjaliste.setLon(Double.parseDouble(txtLon.getText()));
+            penjac.setIme(txtIme.getText().substring(0, 1).toUpperCase() + txtIme.getText().substring(1).toLowerCase());
+            penjac.setPrezime(txtPrezime.getText().substring(0, 1).toUpperCase() + txtPrezime.getText().substring(1).toLowerCase());
+            penjac.setRezultat(txtRezultat.getText().substring(0, 1).toUpperCase() + txtRezultat.getText().substring(1).toLowerCase());
         } catch (StringIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(getRootPane(), "Nisu upisani svi potrebni podaci");
             return false;
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(getRootPane(), "Geografska širina ili dužina nije unesena.");
         }
-        if (!txtNaziv.getText().chars().allMatch(Character::isLetter)) {
-            JOptionPane.showMessageDialog(getRootPane(), "Naziv sadržavati samo slova.");
+
+          if(!txtIme.getText().chars().allMatch(Character::isLetter) || !txtPrezime.getText().chars().allMatch(Character::isLetter)){
+            JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
             return false;
         }
 

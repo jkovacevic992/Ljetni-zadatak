@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.model;
+package kovacevic.ljetnizadatak.model;
 
 import java.io.Serializable;
-import org.hibernate.annotations.Entity;
+import javax.persistence.Entity;
 
 /**
  *

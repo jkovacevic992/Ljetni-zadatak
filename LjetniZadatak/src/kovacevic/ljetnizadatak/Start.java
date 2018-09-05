@@ -5,11 +5,8 @@
  */
 package kovacevic.ljetnizadatak;
 
-import kovacevic.controller.ObradaPenjac;
-import kovacevic.model.Penjac;
-import kovacevic.pomocno.HibernateUtil;
-import kovacevic.pomocno.MojException;
-import kovacevic.view.Izbornik;
+import kovacevic.ljetnizadatak.pomocno.HibernateUtil;
+import kovacevic.ljetnizadatak.view.Izbornik;
 
 /**
  *
@@ -24,7 +21,7 @@ public class Start {
         HibernateUtil.getSession();
         
         Izbornik izbornik = new Izbornik();
-        izbornik.setVisible(true);
+       izbornik.setVisible(true);
     }
     
 }

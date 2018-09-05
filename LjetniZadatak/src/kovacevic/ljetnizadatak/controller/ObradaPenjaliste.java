@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.controller;
+package kovacevic.ljetnizadatak.controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import kovacevic.model.Penjaliste;
+import kovacevic.ljetnizadatak.model.Penjaliste;
 
 /**
  *

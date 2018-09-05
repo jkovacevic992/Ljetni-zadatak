@@ -3,23 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.model;
+package kovacevic.ljetnizadatak.model;
 
 import java.io.Serializable;
-import org.hibernate.annotations.Entity;
+import javax.persistence.Entity;
 
 /**
  *
  * @author Josip
  */
 @Entity
-public class Autor extends Entitet implements Serializable{
+public class Penjac extends Entitet implements Serializable{
 
-
+   
     private String ime;
     private String prezime;
+    private String rezultat;
 
  
+
     public String getIme() {
         return ime;
     }
@@ -35,9 +37,19 @@ public class Autor extends Entitet implements Serializable{
     public void setPrezime(String prezime) {
         this.prezime = prezime;
     }
-    
-    @Override
-    public String toString(){
-        return (getPrezime() + " " + getIme());
+
+    public String getRezultat() {
+        return rezultat;
     }
+
+    public void setRezultat(String rezultat) {
+        this.rezultat = rezultat;
+    }
+
+    @Override
+    public String toString() {
+        return (getPrezime() + " " + getIme());
+
+    }
+
 }

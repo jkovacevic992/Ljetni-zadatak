@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kovacevic.view;
+package kovacevic.ljetnizadatak.view;
 
 import java.awt.Color;
 import java.awt.Desktop;
@@ -88,7 +88,7 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
-        lblSlika.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kovacevic/view/climber1.png"))); // NOI18N
+        lblSlika.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kovacevic/ljetnizadatak/view/climber1.png"))); // NOI18N
 
         btnZatvori.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnZatvori.setText("Zatvori");
