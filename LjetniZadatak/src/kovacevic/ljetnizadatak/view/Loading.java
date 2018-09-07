@@ -7,7 +7,7 @@ package kovacevic.ljetnizadatak.view;
 
 import java.util.List;
 import javax.swing.JOptionPane;
-import kovacevic.ljetnizadatak.model.Penjaliste;
+import kovacevic.ljetnizadatak.model.Penjac;
 import kovacevic.ljetnizadatak.pomocno.HibernateUtil;
 import org.hibernate.Session;
 
@@ -30,8 +30,8 @@ public class Loading extends javax.swing.JFrame {
         public void run() {
             Session s = HibernateUtil.getSession();
            
-            List<Penjaliste> lista = s.createQuery("From Penjaliste").list();
-            Penjaliste p = lista.isEmpty() ? null : lista.get(0);
+            List<Penjac> lista = s.createQuery("From Penjac").list();
+            Penjac p = lista.isEmpty() ? null : lista.get(0);
             
                 if (p!=null && p.getSifra() > 0) {
                     new Izbornik().setVisible(true);
