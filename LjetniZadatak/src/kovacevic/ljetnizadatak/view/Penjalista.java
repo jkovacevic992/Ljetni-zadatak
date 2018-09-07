@@ -7,7 +7,6 @@ package kovacevic.ljetnizadatak.view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -17,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import kovacevic.ljetnizadatak.controller.ObradaPenjaliste;
 import kovacevic.ljetnizadatak.model.Penjaliste;
+import kovacevic.ljetnizadatak.pomocno.MojException;
 
 /**
  *
@@ -227,9 +227,13 @@ public class Penjalista extends javax.swing.JFrame {
         if (!popuniSvojstva()) {
             return;
         }
-        if (obrada.dodajNovi(penjaliste)) {
+        try {
+            obrada.dodaj(penjaliste);
             ucitajIzBaze();
+        } catch (MojException ex) {
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
+
 
     }//GEN-LAST:event_btnDodajActionPerformed
 
@@ -244,8 +248,12 @@ public class Penjalista extends javax.swing.JFrame {
             return;
         }
 
-        if (obrada.promjeniPostojeci(penjaliste)) {
+        try {
+            obrada.promjena(penjaliste);
             ucitajIzBaze();
+
+        } catch (MojException ex) {
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
 
     }//GEN-LAST:event_btnPromjenaActionPerformed
@@ -257,13 +265,8 @@ public class Penjalista extends javax.swing.JFrame {
             return;
         }
 
-        try {
-            if (obrada.obrisiPostojeci(penjaliste)) {
-                ucitajIzBaze();
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(getRootPane(), "Penjalište nije moguće obrisati " + e.getMessage());
-        }
+        obrada.obrisi(penjaliste);
+        ucitajIzBaze();
 
 
     }//GEN-LAST:event_btnObrisiActionPerformed
@@ -321,7 +324,7 @@ public class Penjalista extends javax.swing.JFrame {
 
     private void ucitajIzBaze() {
         DefaultListModel<Penjaliste> m = new DefaultListModel<>();
-        obrada.getPenjalista().forEach((s) -> {
+        obrada.getEntiteti().forEach((s) -> {
             m.addElement(s);
         });
         lstPenjalista.setModel(m);
@@ -338,10 +341,6 @@ public class Penjalista extends javax.swing.JFrame {
             return false;
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(getRootPane(), "Geografska širina ili dužina nije unesena.");
-        }
-        if (!txtNaziv.getText().chars().allMatch(Character::isLetter)) {
-            JOptionPane.showMessageDialog(getRootPane(), "Naziv sadržavati samo slova.");
-            return false;
         }
 
         return true;

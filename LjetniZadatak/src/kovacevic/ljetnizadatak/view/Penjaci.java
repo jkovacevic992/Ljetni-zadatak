@@ -24,7 +24,7 @@ import kovacevic.ljetnizadatak.pomocno.MojException;
  */
 public class Penjaci extends javax.swing.JFrame {
 
-    final private ObradaPenjac obrada;
+    private ObradaPenjac o;
     private Penjac penjac;
     final private DecimalFormat df;
 
@@ -33,7 +33,7 @@ public class Penjaci extends javax.swing.JFrame {
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlPodaci.setBackground(Color.decode("#082F4E"));
 
-        obrada = new ObradaPenjac();
+        o = new ObradaPenjac();
         ucitajIzBaze();
         NumberFormat nf = NumberFormat.getNumberInstance(new Locale("hr", "HR"));
         df = (DecimalFormat) nf;
@@ -228,15 +228,15 @@ public class Penjaci extends javax.swing.JFrame {
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
         penjac = new Penjac();
-        penjac.setIme(txtIme.getText());
-        penjac.setPrezime(txtPrezime.getText());
-        penjac.setRezultat(txtRezultat.getText());
 
+        if (!popuniSvojstva()) {
+            return;
+        }
         try {
-            obrada.dodaj(penjac);
+            o.dodaj(penjac);
             ucitajIzBaze();
         } catch (MojException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
 
     }//GEN-LAST:event_btnDodajActionPerformed
@@ -254,10 +254,10 @@ public class Penjaci extends javax.swing.JFrame {
         }
 
         try {
-            obrada.promjena(penjac);
+            o.promjena(penjac);
             ucitajIzBaze();
         } catch (MojException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
 
     }//GEN-LAST:event_btnPromjenaActionPerformed
@@ -269,8 +269,8 @@ public class Penjaci extends javax.swing.JFrame {
             return;
         }
 
-       obrada.obrisi(penjac);
-       ucitajIzBaze();
+        o.obrisi(penjac);
+        ucitajIzBaze();
 
 
     }//GEN-LAST:event_btnObrisiActionPerformed
@@ -328,7 +328,7 @@ public class Penjaci extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 private void ucitajIzBaze() {
         DefaultListModel<Penjac> m = new DefaultListModel<>();
-        obrada.getEntiteti().forEach((s) -> {
+        o.getEntiteti().forEach((s) -> {
             m.addElement(s);
         });
         lstPenjaci.setModel(m);
@@ -345,12 +345,7 @@ private void ucitajIzBaze() {
             return false;
         }
 
-          if(!txtIme.getText().chars().allMatch(Character::isLetter) || !txtPrezime.getText().chars().allMatch(Character::isLetter)){
-            JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
-            return false;
-        }
-
-        return true;
+         return true;
     }
 
 }

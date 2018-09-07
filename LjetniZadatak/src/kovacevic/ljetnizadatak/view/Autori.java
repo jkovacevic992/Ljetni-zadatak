@@ -7,7 +7,6 @@ package kovacevic.ljetnizadatak.view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -17,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import kovacevic.ljetnizadatak.controller.ObradaAutor;
 import kovacevic.ljetnizadatak.model.Autor;
+import kovacevic.ljetnizadatak.pomocno.MojException;
 
 /**
  *
@@ -24,7 +24,7 @@ import kovacevic.ljetnizadatak.model.Autor;
  */
 public class Autori extends javax.swing.JFrame {
 
-    final private ObradaAutor obrada;
+    final private ObradaAutor o;
     private Autor autor;
     final private DecimalFormat df;
 
@@ -33,7 +33,7 @@ public class Autori extends javax.swing.JFrame {
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlPodaci.setBackground(Color.decode("#082F4E"));
 
-        obrada = new ObradaAutor();
+        o = new ObradaAutor();
         ucitajIzBaze();
 
         NumberFormat nf = NumberFormat.getNumberInstance(new Locale("hr", "HR"));
@@ -206,8 +206,12 @@ public class Autori extends javax.swing.JFrame {
         if (!popuniSvojstva()) {
             return;
         }
-        if (obrada.dodajNovi(autor)) {
+        try {
+            o.dodaj(autor);
             ucitajIzBaze();
+                
+                    } catch (MojException ex) {
+             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
 
     }//GEN-LAST:event_btnDodajActionPerformed
@@ -222,10 +226,13 @@ public class Autori extends javax.swing.JFrame {
             return;
         }
 
-        if (obrada.promjeniPostojeci(autor)) {
+        try {
+            o.promjena(autor);
             ucitajIzBaze();
+                    
+                    } catch (MojException ex) {
+             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
         }
-
 
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
@@ -236,13 +243,8 @@ public class Autori extends javax.swing.JFrame {
             return;
         }
 
-        try {
-            if (obrada.obrisiPostojeci(autor)) {
-                ucitajIzBaze();
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(getRootPane(), "Autora nije moguće obrisati " + e.getMessage());
-        }
+       o.obrisi(autor);
+       ucitajIzBaze();
     }//GEN-LAST:event_btnObrisiActionPerformed
 
     private void lstAutoriValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAutoriValueChanged
@@ -310,7 +312,7 @@ public class Autori extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
  private void ucitajIzBaze() {
         DefaultListModel<Autor> m = new DefaultListModel<>();
-        obrada.getAutori().forEach((s) -> {
+        o.getEntiteti().forEach((s) -> {
             m.addElement(s);
         });
         lstAutori.setModel(m);
@@ -322,10 +324,7 @@ public class Autori extends javax.swing.JFrame {
             autor.setIme(txtIme.getText().substring(0, 1).toUpperCase() + txtIme.getText().substring(1).toLowerCase());
         autor.setPrezime(txtPrezime.getText().substring(0, 1).toUpperCase() + txtPrezime.getText().substring(1).toLowerCase());
 
-        if(!txtIme.getText().chars().allMatch(Character::isLetter) || !txtPrezime.getText().chars().allMatch(Character::isLetter)){
-            JOptionPane.showMessageDialog(getRootPane(), "Ime i prezime mogu sadržavati samo slova.");
-            return false;
-        }
+        
             
 
         } catch (StringIndexOutOfBoundsException e) {
@@ -337,5 +336,6 @@ public class Autori extends javax.swing.JFrame {
 
         return true;
     }
+ 
 
 }
