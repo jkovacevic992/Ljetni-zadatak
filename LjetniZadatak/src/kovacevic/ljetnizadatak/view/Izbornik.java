@@ -5,11 +5,22 @@
  */
 package kovacevic.ljetnizadatak.view;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Image;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /**
  *
@@ -20,10 +31,18 @@ public class Izbornik extends javax.swing.JFrame {
     /**
      * Creates new form Izbornik
      */
+    
+    Image image = Toolkit.getDefaultToolkit().getImage("Slike/climbingIcon.png");
+    final TrayIcon icon = new TrayIcon(image, "Penjališta APP");
+   
     public Izbornik() {
         initComponents();
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlIzbornik.setBackground(Color.decode("#082F4E"));
+ 
+
+        changeIcon();
+        minimizeToSysTray();
     }
 
     /**
@@ -48,6 +67,11 @@ public class Izbornik extends javax.swing.JFrame {
         setTitle("Penjališta APP");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(java.awt.Color.white);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowIconified(java.awt.event.WindowEvent evt) {
+                formWindowIconified(evt);
+            }
+        });
 
         btnPenjaliste.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         btnPenjaliste.setText("Penjališta");
@@ -192,6 +216,10 @@ public class Izbornik extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnZatvoriActionPerformed
 
+    private void formWindowIconified(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowIconified
+        setVisible(false);
+    }//GEN-LAST:event_formWindowIconified
+
     /**
      * @param args the command line arguments
      */
@@ -206,4 +234,42 @@ public class Izbornik extends javax.swing.JFrame {
     private javax.swing.JLabel lblSlika;
     private javax.swing.JPanel pnlIzbornik;
     // End of variables declaration//GEN-END:variables
+
+    private void minimizeToSysTray() {
+     
+         if (SystemTray.isSupported()) {
+      SystemTray tray = SystemTray.getSystemTray();
+
+      icon.setImageAutoSize(true);
+      icon.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            setVisible(true);
+            setExtendedState(JFrame.NORMAL);
+            
+         
+         }
+      });
+
+      try {
+        tray.add(icon);
+      } catch (AWTException e) {
+        System.err.println("Nije moguće dodati ikonu.");
+      }
+    }
+            }
+
+    private void changeIcon() {
+               try {
+    setIconImage(ImageIO.read(new File("Slike/climbingIcon.png")));
 }
+catch (IOException exc) {
+    exc.printStackTrace();
+}
+    }
+            
+    }
+
+
+
+    
+

@@ -5,6 +5,10 @@
  */
 package kovacevic.ljetnizadatak.view;
 
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author Josip
@@ -16,6 +20,7 @@ public class Slika extends javax.swing.JFrame {
      */
     public Slika() {
         initComponents();
+    changeIcon();
     }
 
     /**
@@ -48,4 +53,12 @@ public class Slika extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblSlika;
     // End of variables declaration//GEN-END:variables
+    private void changeIcon() {
+               try {
+    setIconImage(ImageIO.read(new File("Slike/climbingIcon.png")));
+}
+catch (IOException exc) {
+    exc.printStackTrace();
+}
+    }
 }

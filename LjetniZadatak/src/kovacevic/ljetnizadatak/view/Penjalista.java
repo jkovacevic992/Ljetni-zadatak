@@ -7,9 +7,12 @@ package kovacevic.ljetnizadatak.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -32,6 +35,7 @@ public class Penjalista extends javax.swing.JFrame {
         initComponents();
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlPodaci.setBackground(Color.decode("#082F4E"));
+        changeIcon();
 
         obrada = new ObradaPenjaliste();
         ucitajIzBaze();
@@ -344,6 +348,14 @@ public class Penjalista extends javax.swing.JFrame {
         }
 
         return true;
+    }
+        private void changeIcon() {
+               try {
+    setIconImage(ImageIO.read(new File("Slike/climbingIcon.png")));
+}
+catch (IOException exc) {
+    exc.printStackTrace();
+}
     }
 
 }

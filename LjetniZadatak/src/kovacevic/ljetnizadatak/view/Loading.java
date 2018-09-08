@@ -5,7 +5,10 @@
  */
 package kovacevic.ljetnizadatak.view;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import kovacevic.ljetnizadatak.model.Penjac;
 import kovacevic.ljetnizadatak.pomocno.HibernateUtil;
@@ -23,6 +26,7 @@ public class Loading extends javax.swing.JFrame {
     public Loading() {
         initComponents();
          new SpojiSeNaBazu().start();
+         changeIcon();
     }
     
     private class SpojiSeNaBazu extends Thread {
@@ -82,7 +86,14 @@ public class Loading extends javax.swing.JFrame {
     private javax.swing.JLabel lblLoading;
     // End of variables declaration//GEN-END:variables
 
-
+    private void changeIcon() {
+               try {
+    setIconImage(ImageIO.read(new File("Slike/climbingIcon.png")));
+}
+catch (IOException exc) {
+    exc.printStackTrace();
+}
+    }
 
 
 }
