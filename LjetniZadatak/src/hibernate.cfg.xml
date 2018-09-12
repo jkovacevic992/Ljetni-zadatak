@@ -44,7 +44,7 @@
     <mapping class="kovacevic.ljetnizadatak.model.Penjac" />
     <mapping class="kovacevic.ljetnizadatak.model.Autor" /> 
     <mapping class="kovacevic.ljetnizadatak.model.Penjaliste" />
-    
+    <mapping class="kovacevic.ljetnizadatak.model.Operater" />
 
    
 </session-factory>
