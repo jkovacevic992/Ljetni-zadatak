@@ -21,6 +21,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import kovacevic.ljetnizadatak.model.Operater;
 
 /**
  *
@@ -31,12 +32,15 @@ public class Izbornik extends javax.swing.JFrame {
     /**
      * Creates new form Izbornik
      */
-    
+    private Operater operater;
     Image image = Toolkit.getDefaultToolkit().getImage("Slike/climbingIcon.png");
     final TrayIcon icon = new TrayIcon(image, "Penjališta APP");
    
-    public Izbornik() {
+    public Izbornik(Operater operater) {
+       
         initComponents();
+         this.operater = operater;
+        setTitle("Penjališta APP " + operater.getIme() + " " + operater.getPrezime());
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlIzbornik.setBackground(Color.decode("#082F4E"));
  

@@ -5,7 +5,7 @@
  */
 package kovacevic.ljetnizadatak.pomocno;
 
-import kovacevic.ljetnizadatak.model.Penjac;
+import kovacevic.ljetnizadatak.model.Operater;
 import org.hibernate.Session;
 
 /**
@@ -17,11 +17,12 @@ public class PocetniInsert {
           Session session = HibernateUtil.getSession();
         
         session.beginTransaction();
-        Penjac p = new Penjac();
-        p.setIme("Josip");
-        p.setPrezime("Kovačević");
-        p.setRezultat("xx");
-        session.save(p);
+        Operater o = new Operater();
+        o.setIme("Josip");
+        o.setPrezime("Kovačević");
+        o.setEmail("jkovacevic@gmail.com");
+        o.setLozinka(Autorizacija.getHash("j"));
+        session.save(o);
         
         session.getTransaction().commit();
     }

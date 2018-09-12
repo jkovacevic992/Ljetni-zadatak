@@ -6,6 +6,7 @@
 package kovacevic.ljetnizadatak;
 
 import kovacevic.ljetnizadatak.pomocno.HibernateUtil;
+import kovacevic.ljetnizadatak.pomocno.PocetniInsert;
 import kovacevic.ljetnizadatak.view.Loading;
 
 /**
@@ -20,7 +21,7 @@ public class Start {
     public static void main(String[] args) {
 //        PocetniInsert.izvedi();
 new Loading().setVisible(true);
-        HibernateUtil.getSession();
+//        HibernateUtil.getSession();
 //        
 //        Izbornik izbornik = new Izbornik();
 //       izbornik.setVisible(true);

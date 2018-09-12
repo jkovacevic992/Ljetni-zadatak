@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
-import kovacevic.ljetnizadatak.model.Penjac;
+import kovacevic.ljetnizadatak.model.Operater;
 import kovacevic.ljetnizadatak.pomocno.HibernateUtil;
 import org.hibernate.Session;
 
@@ -34,11 +34,11 @@ public class Loading extends javax.swing.JFrame {
         public void run() {
             Session s = HibernateUtil.getSession();
            
-            List<Penjac> lista = s.createQuery("From Penjac").list();
-            Penjac p = lista.isEmpty() ? null : lista.get(0);
+            List<Operater> lista = s.createQuery("From Operater").list();
+            Operater o = lista.isEmpty() ? null : lista.get(0);
             
-                if (p!=null && p.getSifra() > 0) {
-                    new Izbornik().setVisible(true);
+                if (o!=null && o.getSifra() > 0) {
+                    new Autorizacija().setVisible(true);
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(getRootPane(), "Greška, "

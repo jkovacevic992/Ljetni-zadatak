@@ -33,6 +33,7 @@ public class Autori extends javax.swing.JFrame {
 
     public Autori() {
         initComponents();
+      
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlPodaci.setBackground(Color.decode("#082F4E"));
         changeIcon();
