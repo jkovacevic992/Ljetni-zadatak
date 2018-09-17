@@ -33,10 +33,8 @@ public class Penjalista extends javax.swing.JFrame {
 
     public Penjalista() {
         initComponents();
-        getContentPane().setBackground(Color.decode("#082F4E"));
-        pnlPodaci.setBackground(Color.decode("#082F4E"));
-        changeIcon();
-
+        promjenaIzgleda();
+       
         obrada = new ObradaPenjaliste();
         ucitajIzBaze();
         NumberFormat nf = NumberFormat.getNumberInstance(new Locale("hr", "HR"));
@@ -356,6 +354,13 @@ public class Penjalista extends javax.swing.JFrame {
 catch (IOException exc) {
     exc.printStackTrace();
 }
+    }
+
+    private void promjenaIzgleda() {
+        getContentPane().setBackground(Color.decode("#082F4E"));
+        pnlPodaci.setBackground(Color.decode("#082F4E"));
+        changeIcon();
+
     }
 
 }

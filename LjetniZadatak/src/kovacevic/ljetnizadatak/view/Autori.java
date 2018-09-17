@@ -33,10 +33,8 @@ public class Autori extends javax.swing.JFrame {
 
     public Autori() {
         initComponents();
-      
-        getContentPane().setBackground(Color.decode("#082F4E"));
-        pnlPodaci.setBackground(Color.decode("#082F4E"));
-        changeIcon();
+        promjenaIzgleda();
+        
 
         o = new ObradaAutor();
         ucitajIzBaze();
@@ -348,6 +346,12 @@ public class Autori extends javax.swing.JFrame {
 catch (IOException exc) {
     exc.printStackTrace();
 }
+    }
+
+    private void promjenaIzgleda() {
+        getContentPane().setBackground(Color.decode("#082F4E"));
+        pnlPodaci.setBackground(Color.decode("#082F4E"));
+        changeIcon();
     }
 
 }

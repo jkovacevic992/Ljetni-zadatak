@@ -39,10 +39,8 @@ public class Izbornik extends javax.swing.JFrame {
     public Izbornik(Operater operater) {
        
         initComponents();
-         this.operater = operater;
-        setTitle("Penjališta APP " + operater.getIme() + " " + operater.getPrezime());
-        getContentPane().setBackground(Color.decode("#082F4E"));
-        pnlIzbornik.setBackground(Color.decode("#082F4E"));
+         promjenaIzgleda();
+         
  
 
         changeIcon();
@@ -269,6 +267,13 @@ public class Izbornik extends javax.swing.JFrame {
 catch (IOException exc) {
     exc.printStackTrace();
 }
+    }
+
+    private void promjenaIzgleda() {
+        this.operater = operater;
+        setTitle("Penjališta APP " + operater.getIme() + " " + operater.getPrezime());
+        getContentPane().setBackground(Color.decode("#082F4E"));
+        pnlIzbornik.setBackground(Color.decode("#082F4E"));
     }
             
     }

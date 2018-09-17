@@ -34,9 +34,8 @@ public class Penjaci extends javax.swing.JFrame {
 
     public Penjaci() {
         initComponents();
-        getContentPane().setBackground(Color.decode("#082F4E"));
-        pnlPodaci.setBackground(Color.decode("#082F4E"));
-        changeIcon();
+        promjenaIzgleda();
+        
 
         o = new ObradaPenjac();
         ucitajIzBaze();
@@ -377,6 +376,12 @@ private void ucitajIzBaze() {
 catch (IOException exc) {
     exc.printStackTrace();
 }
+    }
+
+    private void promjenaIzgleda() {
+        getContentPane().setBackground(Color.decode("#082F4E"));
+        pnlPodaci.setBackground(Color.decode("#082F4E"));
+        changeIcon();
     }
         
          private class BrisanjePenjaca extends Thread {
