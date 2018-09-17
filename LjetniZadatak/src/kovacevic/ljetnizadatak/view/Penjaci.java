@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import kovacevic.ljetnizadatak.controller.ObradaPenjac;
 import kovacevic.ljetnizadatak.model.Penjac;
+import kovacevic.ljetnizadatak.pomocno.HibernateUtil;
 import kovacevic.ljetnizadatak.pomocno.MojException;
 
 /**
@@ -65,12 +66,12 @@ public class Penjaci extends javax.swing.JFrame {
         btnDodaj = new javax.swing.JButton();
         btnPromjena = new javax.swing.JButton();
         btnObrisi = new javax.swing.JButton();
+        prbBrisanje = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Penjači");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        lstPenjaci.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstPenjaci.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lstPenjaciValueChanged(evt);
@@ -145,6 +146,7 @@ public class Penjaci extends javax.swing.JFrame {
             .addGroup(pnlPodaciLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(prbBrisanje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtRezultat)
                     .addComponent(txtIme)
                     .addComponent(txtPrezime)
@@ -157,7 +159,7 @@ public class Penjaci extends javax.swing.JFrame {
                                 .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnPromjena, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(10, 10, 10)
                                 .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -177,12 +179,14 @@ public class Penjaci extends javax.swing.JFrame {
                 .addComponent(lblRezultat)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtRezultat, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlPodaciLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDodaj)
                     .addComponent(btnPromjena)
                     .addComponent(btnObrisi))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(prbBrisanje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -198,13 +202,13 @@ public class Penjaci extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlPodaci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -267,14 +271,27 @@ public class Penjaci extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        penjac = lstPenjaci.getSelectedValue();
-        if (penjac == null) {
+        //penjac = lstPenjaci.getSelectedValue();
+        if (lstPenjaci.getSelectedValuesList().size() == 0) {
             JOptionPane.showMessageDialog(getRootPane(), "Prvo odaberi penjača.");
             return;
         }
-
-        o.obrisi(penjac);
-        ucitajIzBaze();
+if(lstPenjaci.getSelectedValuesList().size()==1){
+             try {
+                 o.obrisi(lstPenjaci.getSelectedValuesList().get(0));
+            } catch (Exception ex) {
+                HibernateUtil.getSession().clear();
+                JOptionPane.showMessageDialog(getRootPane(), "Penjača " + 
+                        lstPenjaci.getSelectedValuesList().get(0)
+                        + 
+                        " ne mogu obrisati.");
+            }
+              ucitajIzBaze();
+        }else{
+            new BrisanjePenjaca().start();
+        }
+//        o.obrisi(penjac);
+//        ucitajIzBaze();
 
 
     }//GEN-LAST:event_btnObrisiActionPerformed
@@ -326,6 +343,7 @@ public class Penjaci extends javax.swing.JFrame {
     private javax.swing.JLabel lblRezultat;
     private javax.swing.JList<Penjac> lstPenjaci;
     private javax.swing.JPanel pnlPodaci;
+    private javax.swing.JProgressBar prbBrisanje;
     private javax.swing.JTextField txtIme;
     private javax.swing.JTextField txtPrezime;
     private javax.swing.JTextField txtRezultat;
@@ -359,6 +377,27 @@ private void ucitajIzBaze() {
 catch (IOException exc) {
     exc.printStackTrace();
 }
+    }
+        
+         private class BrisanjePenjaca extends Thread {
+
+        public void run() {
+             prbBrisanje.setMinimum(0);
+        prbBrisanje.setMaximum(lstPenjaci.getSelectedValuesList().size());
+        int i=0;
+        
+        for (Penjac e : lstPenjaci.getSelectedValuesList()) {
+             prbBrisanje.setValue(++i);
+            try {
+                 o.obrisi(e);
+            } catch (Exception ex) {
+                 HibernateUtil.getSession().clear();
+               
+            }
+        }
+         ucitajIzBaze();
+         prbBrisanje.setValue(0);
+        }
     }
 
 }
