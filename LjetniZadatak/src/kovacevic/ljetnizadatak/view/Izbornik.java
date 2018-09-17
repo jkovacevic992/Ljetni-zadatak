@@ -18,9 +18,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
 import kovacevic.ljetnizadatak.model.Operater;
 
 /**
@@ -35,11 +39,17 @@ public class Izbornik extends javax.swing.JFrame {
     private Operater operater;
     Image image = Toolkit.getDefaultToolkit().getImage("Slike/climbingIcon.png");
     final TrayIcon icon = new TrayIcon(image, "Penjališta APP");
+    private Date pocetakRada;
    
     public Izbornik(Operater operater) {
        
         initComponents();
+        this.operater = operater;
+        setTitle("Penjališta APP " + operater.getIme() + " " + operater.getPrezime());
          promjenaIzgleda();
+         pocetakRada=new Date();
+
+         definirajTimer();
          
  
 
@@ -64,6 +74,7 @@ public class Izbornik extends javax.swing.JFrame {
         btnEra = new javax.swing.JButton();
         lblSlika = new javax.swing.JLabel();
         btnZatvori = new javax.swing.JButton();
+        lblVrijeme = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Penjališta APP");
@@ -125,6 +136,9 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
 
+        lblVrijeme.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+        lblVrijeme.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout pnlIzbornikLayout = new javax.swing.GroupLayout(pnlIzbornik);
         pnlIzbornik.setLayout(pnlIzbornikLayout);
         pnlIzbornikLayout.setHorizontalGroup(
@@ -137,7 +151,8 @@ public class Izbornik extends javax.swing.JFrame {
                     .addComponent(btnPenjac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPenjaliste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnZatvori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnZatvori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblVrijeme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(lblSlika, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(26, Short.MAX_VALUE))
@@ -157,7 +172,9 @@ public class Izbornik extends javax.swing.JFrame {
                 .addComponent(btnEra)
                 .addGap(18, 18, 18)
                 .addComponent(btnZatvori)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lblVrijeme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(pnlIzbornikLayout.createSequentialGroup()
                 .addComponent(lblSlika)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -174,9 +191,7 @@ public class Izbornik extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlIzbornik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(pnlIzbornik, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -234,6 +249,7 @@ public class Izbornik extends javax.swing.JFrame {
     private javax.swing.JButton btnPenjaliste;
     private javax.swing.JButton btnZatvori;
     private javax.swing.JLabel lblSlika;
+    private javax.swing.JLabel lblVrijeme;
     private javax.swing.JPanel pnlIzbornik;
     // End of variables declaration//GEN-END:variables
 
@@ -270,12 +286,37 @@ catch (IOException exc) {
     }
 
     private void promjenaIzgleda() {
-        this.operater = operater;
-        setTitle("Penjališta APP " + operater.getIme() + " " + operater.getPrezime());
+        
         getContentPane().setBackground(Color.decode("#082F4E"));
         pnlIzbornik.setBackground(Color.decode("#082F4E"));
     }
             
+    private void definirajTimer(){
+         Timer timer = new Timer();
+        timer.schedule(new  TimerTask() {
+            @Override
+            public void run() {
+                
+                long diffInSeconds = (new Date().getTime() - pocetakRada.getTime())/1000;
+             
+
+    long diff[] = new long[] { 0, 0, 0, 0 };
+    /* sec */diff[3] = (diffInSeconds >= 60 ? diffInSeconds % 60 : diffInSeconds);
+    /* min */diff[2] = (diffInSeconds = (diffInSeconds / 60)) >= 60 ? diffInSeconds % 60 : diffInSeconds;
+    /* hours */diff[1] = (diffInSeconds = (diffInSeconds / 60)) >= 24 ? diffInSeconds % 24 : diffInSeconds;
+    /* days */diff[0] = (diffInSeconds = (diffInSeconds / 24));
+
+                lblVrijeme.setText(String.format(
+        "%s%d:%s%d:%s%d",
+        diff[1]<10 ? "0" : "",
+        diff[1],
+        diff[2]<10 ? "0" : "",
+        diff[2],
+        diff[3]<10 ? "0" : "",
+        diff[3]));
+            }
+        }, 0, 1000);
+    }
     }
 
 
