@@ -73,8 +73,14 @@ public class Izbornik extends javax.swing.JFrame {
         btnGit = new javax.swing.JButton();
         btnEra = new javax.swing.JButton();
         lblSlika = new javax.swing.JLabel();
-        btnZatvori = new javax.swing.JButton();
         lblVrijeme = new javax.swing.JLabel();
+        jmbMenu = new javax.swing.JMenuBar();
+        menFile = new javax.swing.JMenu();
+        jmiExit = new javax.swing.JMenuItem();
+        menImport = new javax.swing.JMenu();
+        menExport = new javax.swing.JMenu();
+        menHelp = new javax.swing.JMenu();
+        jmiOAplikaciji = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Penjališta APP");
@@ -128,14 +134,6 @@ public class Izbornik extends javax.swing.JFrame {
 
         lblSlika.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kovacevic/ljetnizadatak/view/climber1.png"))); // NOI18N
 
-        btnZatvori.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
-        btnZatvori.setText("Zatvori");
-        btnZatvori.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnZatvoriActionPerformed(evt);
-            }
-        });
-
         lblVrijeme.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         lblVrijeme.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -151,7 +149,6 @@ public class Izbornik extends javax.swing.JFrame {
                     .addComponent(btnPenjac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPenjaliste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnZatvori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblVrijeme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(lblSlika, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,15 +167,40 @@ public class Izbornik extends javax.swing.JFrame {
                 .addComponent(btnGit)
                 .addGap(18, 18, 18)
                 .addComponent(btnEra)
-                .addGap(18, 18, 18)
-                .addComponent(btnZatvori)
-                .addGap(18, 18, 18)
+                .addGap(65, 65, 65)
                 .addComponent(lblVrijeme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(pnlIzbornikLayout.createSequentialGroup()
                 .addComponent(lblSlika)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        menFile.setText("File");
+
+        jmiExit.setText("Zatvori");
+        jmiExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiExitActionPerformed(evt);
+            }
+        });
+        menFile.add(jmiExit);
+
+        jmbMenu.add(menFile);
+
+        menImport.setText("Import");
+        jmbMenu.add(menImport);
+
+        menExport.setText("Export");
+        jmbMenu.add(menExport);
+
+        menHelp.setText("Help");
+
+        jmiOAplikaciji.setText("O aplikaciji");
+        menHelp.add(jmiOAplikaciji);
+
+        jmbMenu.add(menHelp);
+
+        setJMenuBar(jmbMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -229,13 +251,14 @@ public class Izbornik extends javax.swing.JFrame {
         autor.setVisible(true);
     }//GEN-LAST:event_btnAutorActionPerformed
 
-    private void btnZatvoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZatvoriActionPerformed
-        dispose();
-    }//GEN-LAST:event_btnZatvoriActionPerformed
-
     private void formWindowIconified(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowIconified
         setVisible(false);
     }//GEN-LAST:event_formWindowIconified
+
+    private void jmiExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExitActionPerformed
+        dispose();
+        System.exit(0);
+    }//GEN-LAST:event_jmiExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,9 +270,15 @@ public class Izbornik extends javax.swing.JFrame {
     private javax.swing.JButton btnGit;
     private javax.swing.JButton btnPenjac;
     private javax.swing.JButton btnPenjaliste;
-    private javax.swing.JButton btnZatvori;
+    private javax.swing.JMenuBar jmbMenu;
+    private javax.swing.JMenuItem jmiExit;
+    private javax.swing.JMenuItem jmiOAplikaciji;
     private javax.swing.JLabel lblSlika;
     private javax.swing.JLabel lblVrijeme;
+    private javax.swing.JMenu menExport;
+    private javax.swing.JMenu menFile;
+    private javax.swing.JMenu menHelp;
+    private javax.swing.JMenu menImport;
     private javax.swing.JPanel pnlIzbornik;
     // End of variables declaration//GEN-END:variables
 
