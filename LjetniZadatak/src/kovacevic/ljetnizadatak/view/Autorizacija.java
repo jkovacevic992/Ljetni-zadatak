@@ -51,10 +51,14 @@ public class Autorizacija extends javax.swing.JFrame {
         lblEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEmail.setText("Email");
 
+        txtEmail.setText("jkovacevic@gmail.com");
+
         lblSifra1.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         lblSifra1.setForeground(new java.awt.Color(255, 255, 255));
         lblSifra1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSifra1.setText("Šifra");
+
+        pwdSifra.setText("j");
 
         btnLogin.setText("Login");
         btnLogin.setFocusPainted(false);

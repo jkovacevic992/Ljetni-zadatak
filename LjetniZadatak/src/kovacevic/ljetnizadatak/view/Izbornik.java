@@ -196,6 +196,11 @@ public class Izbornik extends javax.swing.JFrame {
         menHelp.setText("Help");
 
         jmiOAplikaciji.setText("O aplikaciji");
+        jmiOAplikaciji.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiOAplikacijiActionPerformed(evt);
+            }
+        });
         menHelp.add(jmiOAplikaciji);
 
         jmbMenu.add(menHelp);
@@ -259,6 +264,11 @@ public class Izbornik extends javax.swing.JFrame {
         dispose();
         System.exit(0);
     }//GEN-LAST:event_jmiExitActionPerformed
+
+    private void jmiOAplikacijiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiOAplikacijiActionPerformed
+        OAplikaciji oAplikaciji = new OAplikaciji();
+        oAplikaciji.setVisible(true);
+    }//GEN-LAST:event_jmiOAplikacijiActionPerformed
 
     /**
      * @param args the command line arguments
